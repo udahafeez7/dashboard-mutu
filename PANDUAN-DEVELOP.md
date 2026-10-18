@@ -118,6 +118,8 @@ python tools/portal_admin.py dekripsi --timpa
 | Tampilan / logika dashboard | `dashboard.html`, `assets/dashboard.js` | Tidak ada |
 | Halaman login / beranda | `index.html`, `portal.html`, `assets/login.js`, `assets/portal.js`, `assets/portal.css` | Tidak ada |
 | Tema silver, splash, loader, logout | `assets/ui.css`, `assets/ui.js`, `assets/splash.js` | Tidak ada |
+| Halaman masuk (logo, menu bulatan, modal login) | `index.html`, `assets/landing.css`, `assets/login.js`, `assets/latar.js` | Tidak ada |
+| Rumus capaian IKSS / tindak lanjut | `assets/hitung.js` | Berlaku di beranda dan dashboard sekaligus |
 | Isi data (realisasi, tindak lanjut, akreditasi) | `sumber/mutu.json` | `python tools/portal_admin.py enkripsi` |
 | Akun | (tidak diedit manual) | `tambah-akun`, `hapus-akun`, `ubah-sandi` |
 

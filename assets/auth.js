@@ -51,7 +51,10 @@ const Auth = (() => {
     try { isi = await open(key, a.kunci, "akun:" + id); }
     catch (e) { throw new Error("Username atau password salah."); }
     const now = Date.now();
-    const sesi = {u: isi.u, nama: isi.nama, peran: isi.peran, prodi: isi.prodi || null, k: isi.k, mulai: now, aktif: now};
+    // Waktu masuk sebelumnya di perangkat ini (hanya untuk sapaan; disimpan per hash akun).
+    let terakhir = null;
+    try { terakhir = Number(localStorage.getItem("portalMutu.terakhir:" + id)) || null; localStorage.setItem("portalMutu.terakhir:" + id, String(now)); } catch (e) { /* abaikan */ }
+    const sesi = {u: isi.u, nama: isi.nama, peran: isi.peran, prodi: isi.prodi || null, k: isi.k, mulai: now, aktif: now, terakhir};
     sessionStorage.setItem(SESI, JSON.stringify(sesi));
     tahap("sukses");
     return sesi;

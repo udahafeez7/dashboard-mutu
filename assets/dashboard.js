@@ -9,7 +9,7 @@ const TABS = ["indikator","tindak","akreditasi"];
 const state = {prodi:"Semua", sasaran:"Semua", tab:TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "indikator", standar:"pendidikan", sel:null, sort:{}};
 const PAL = ["#15803d","#2563eb","#d97706","#7c3aed","#db2777","#0891b2"];
 const STAT_COL = {"Selesai":"#15803d","Berjalan":"#2563eb","Belum mulai":"#94a3b8","Terlambat":"#b91c1c"};
-const TODAY = new Date().toISOString().slice(0,10);
+const TODAY = Mutu.hariIni();
 
 function h(tag, attrs, ...kids){
   const e = document.createElement(tag);
@@ -22,24 +22,16 @@ function h(tag, attrs, ...kids){
   return e;
 }
 const fmt = (n, d=2) => Number(n).toLocaleString("id-ID", {maximumFractionDigits:d});
-const avg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0;
+const avg = Mutu.avg;
 const badge = (text, kind) => h("span", {class:"badge b-"+kind}, text);
 const kindOf = p => p >= 100 ? "ok" : p >= 85 ? "warn" : "bad";
 
-/* ---------- indikator ---------- */
-const yIdx = () => DATA.meta.tahun_target.indexOf(DATA.meta.tahun_berjalan);
-const hasData = i => Array.isArray(i.realisasi) && i.realisasi.length > 0;
-const lastTW = i => i.realisasi.length - 1;
-function targetNow(i, tw){
-  const t = i.target[yIdx()];
-  return i.tipe === "kumulatif" ? t * (tw + 1) / 4 : t;
-}
-function ratioAt(i, tw){
-  const v = i.realisasi[tw], t = targetNow(i, tw);
-  if (i.arah === "turun") return t === 0 ? (v === 0 ? 1 : 0) : (v === 0 ? 1.2 : t / v);
-  return t === 0 ? (v > 0 ? 1.2 : 0) : v / t;
-}
-const capaian = i => hasData(i) ? Math.min(ratioAt(i, lastTW(i)), 1.2) * 100 : null;
+/* ---------- indikator (rumus di assets/hitung.js) ---------- */
+const yIdx = () => Mutu.yIdx(DATA);
+const {hasData, lastTW} = Mutu;
+const targetNow = (i, tw) => Mutu.targetNow(DATA, i, tw);
+const ratioAt = (i, tw) => Mutu.rasio(DATA, i, tw);
+const capaian = i => Mutu.capaian(DATA, i);
 function indStatus(i){
   if (!hasData(i)) return ["Belum ada data","neutral"];
   const r = ratioAt(i, lastTW(i));
@@ -50,11 +42,10 @@ function fv(i, v){
   if (i.fmt === "rasio") return "1:" + fmt(v,0);
   return i.satuan === "%" ? fmt(v) + "%" : fmt(v) + " " + i.satuan;
 }
-const indAll = () => DATA.indikator;
 const inds = () => DATA.indikator.filter(i => state.sasaran === "Semua" || i.sasaran === state.sasaran);
 
 /* ---------- tindak lanjut & akreditasi ---------- */
-const tlStatus = t => t.status !== "Selesai" && t.tenggat < TODAY ? "Terlambat" : t.status;
+const tlStatus = t => Mutu.tlStatus(t, TODAY);
 const inScopeTL = t => state.prodi === "Semua" || t.prodi === state.prodi || t.prodi === "Fakultas";
 const tls = () => DATA.tindak_lanjut.filter(inScopeTL);
 const akrs = () => DATA.akreditasi.filter(a => state.prodi === "Semua" || a.prodi === state.prodi);
@@ -94,24 +85,21 @@ function renderTimeline(){
     h("div", {class:"tl " + (m.tahun === yr ? "now" : m.tahun < yr ? "past" : "")}, h("b", null, m.tahun + (m.tahun === yr ? " · tahun berjalan" : "")), m.nama)));
 }
 function renderKPIs(){
-  const I = indAll(), withData = I.filter(hasData), T = DATA.tindak_lanjut, A = DATA.akreditasi;
-  const ok = withData.filter(i => ratioAt(i, lastTW(i)) >= 1).length;
-  const tuntas = T.filter(t => t.status === "Selesai").length;
-  const telat = T.filter(t => tlStatus(t) === "Terlambat").length;
-  const unggul = A.filter(a => a.peringkat_saat_ini === "Unggul").length;
-  const p6 = I.find(i => i.kunci === "akreditasi_unggul");
-  const p6t = p6 ? p6.target[yIdx()] : null;
-  const need = p6t != null ? Math.round(p6t / 100 * A.length) : null;
+  const R = Mutu.ringkas(DATA), yr = DATA.meta.tahun_berjalan;
+  const pctSesuai = R.ikssTerisi ? R.ikssSesuai / R.ikssTerisi * 100 : null;
+  // [label, nilai, keterangan, ikon, nada]; nada status selalu disertai keterangan teks.
   const cards = [
-    ["Indikator sesuai target", withData.length ? fmt(ok / withData.length * 100, 0) + "%" : "–", ok + " dari " + withData.length + " yang sudah terisi"],
-    ["Capaian rata-rata IKSS", fmt(avg(withData.map(capaian)), 0) + "%", "terhadap target " + DATA.meta.tahun_berjalan],
-    ["Indikator belum terisi", I.length - withData.length, "dari " + I.length + " IKSS (pengukuran tahunan)"],
-    ["Tindak lanjut selesai", T.length ? fmt(tuntas / T.length * 100, 0) + "%" : "–", tuntas + " dari " + T.length + " temuan"],
-    ["Tindak lanjut terlambat", telat, "melewati tenggat, belum selesai"],
-    ["Prodi akreditasi Unggul", unggul + " / " + A.length, need != null ? "target " + DATA.meta.tahun_berjalan + ": " + p6t + "% (≥ " + need + " prodi)" : ""],
+    ["Indikator sesuai target", pctSesuai != null ? fmt(pctSesuai, 0) + "%" : "–", R.ikssSesuai + " dari " + R.ikssTerisi + " yang sudah terisi", "bi-bullseye", pctSesuai == null ? "netral" : kindOf(pctSesuai)],
+    ["Capaian rata-rata IKSS", fmt(R.capaianRata, 0) + "%", "terhadap target " + yr, "bi-speedometer2", "utama"],
+    ["Indikator belum terisi", R.ikssTotal - R.ikssTerisi, "dari " + R.ikssTotal + " IKSS (pengukuran tahunan)", "bi-hourglass-split", "netral"],
+    ["Tindak lanjut selesai", R.tlTotal ? fmt(R.tlSelesai / R.tlTotal * 100, 0) + "%" : "–", R.tlSelesai + " dari " + R.tlTotal + " temuan", "bi-check2-circle", "ok"],
+    ["Tindak lanjut terlambat", R.tlTerlambat, R.tlTerlambat ? "melewati tenggat, belum selesai" : "tidak ada yang terlambat", "bi-alarm", R.tlTerlambat ? "bad" : "ok"],
+    ["Prodi akreditasi Unggul", R.prodiUnggul + " / " + R.prodiTotal, R.p6Target != null ? "target " + yr + ": " + R.p6Target + "% (≥ " + R.p6Butuh + " prodi)" : "", "bi-award", R.p6Butuh != null && R.prodiUnggul < R.p6Butuh ? "warn" : "ok"],
   ];
   document.getElementById("kpis").replaceChildren(...cards.map(c =>
-    h("div",{class:"kpi"}, h("div",{class:"l"},c[0]), h("div",{class:"v"},c[1]), h("div",{class:"s"},c[2]))));
+    h("div",{class:"kpi"},
+      h("span",{class:"kpi-ikon t-"+c[4],"aria-hidden":"true"}, h("i",{class:"bi "+c[3]})),
+      h("div",{class:"kpi-isi"}, h("div",{class:"l"},c[0]), h("div",{class:"v"},c[1]), h("div",{class:"s"},c[2])))));
 }
 
 /* ---------- tab: indikator ---------- */
@@ -224,6 +212,7 @@ function setupFilters(){
 function render(){
   document.getElementById("judul").textContent = DATA.meta.judul;
   document.getElementById("subjudul").textContent = DATA.meta.subjudul;
+  document.getElementById("sapa").textContent = "Selamat Datang Kembali, " + SESI.nama;
   const b = document.getElementById("banner");
   b.classList.toggle("hidden", !DATA.meta.data_contoh);
   b.textContent = "Target dan baseline bersumber dari Renstra (SK Dekan No. 67/UN16.15.D/KPT/VIII/2026). Realisasi, status tindak lanjut, dan nilai evidence masih DATA CONTOH: ganti isi sumber/mutu.json dengan data GKM/GPM lalu enkripsi ulang sebelum dipakai untuk keputusan.";
@@ -260,7 +249,7 @@ async function load(){
 document.getElementById("f-prodi").addEventListener("change", e => { state.prodi = e.target.value; render(); });
 document.getElementById("f-sasaran").addEventListener("change", e => { state.sasaran = e.target.value; state.sel = null; render(); });
 document.getElementById("f-standar").addEventListener("change", e => { state.standar = e.target.value; render(); });
-document.getElementById("tabs").addEventListener("click", e => { const t = e.target.dataset && e.target.dataset.tab; if (t) { state.tab = t; history.replaceState(null, "", "#" + t); render(); } });
+document.getElementById("tabs").addEventListener("click", e => { const btn = e.target.closest("[data-tab]"), t = btn && btn.dataset.tab; if (t) { state.tab = t; history.replaceState(null, "", "#" + t); render(); } });
 addEventListener("hashchange", () => { const t = location.hash.slice(1); if (TABS.includes(t) && DATA) { state.tab = t; render(); } });
 load();
 setInterval(load, 60000);

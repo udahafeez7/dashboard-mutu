@@ -160,7 +160,14 @@ const UI = (() => {
   }
 
   /* Halaman terlindungi menandai <body data-loader="..."> agar loader muncul sebelum isi terlihat. */
-  if (document.body && document.body.dataset.loader && Auth.sesi()) loader.tampil(document.body.dataset.loader, "Memverifikasi sesi…");
+  if (document.body && document.body.dataset.loader && Auth.sesi()) {
+    loader.tampil(document.body.dataset.loader, "Memverifikasi sesi…");
+    // Latar logo FTI untuk semua halaman di dalam portal.
+    const latar = el("div", "latar-fti"); latar.setAttribute("aria-hidden", "true");
+    const img = el("img"); img.src = "assets/img/logo-fti.png"; img.alt = "";
+    latar.append(img);
+    document.body.prepend(latar);
+  }
 
   return {logo, loader, toast, keluar, jagaSesi, tunggu, HEMAT};
 })();

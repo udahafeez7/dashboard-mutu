@@ -31,7 +31,11 @@ Peran hanya mengatur tampilan dan alat admin; semua akun yang login dapat membac
 
 ## Struktur
 - `index.html`, `portal.html`, `dashboard.html`: halaman portal
-- `assets/`: `auth.js` (login & dekripsi), `ui.js` (loader, toast, modal logout, peringatan sesi), `splash.js` (animasi logo awal), `login.js`, `portal.js`, `dashboard.js`, `ui.css` (tema silver), `portal.css`
+- `assets/`:
+  - `auth.js` (login & dekripsi), `hitung.js` (rumus capaian bersama beranda dan dashboard)
+  - `ui.js` (loader, toast, modal logout, peringatan sesi, latar logo FTI), `splash.js` (animasi logo awal)
+  - `login.js` + `landing.css` + `latar.js` (halaman masuk: sambutan → logo → menu bulatan → modal login)
+  - `portal.js`, `dashboard.js`, `ui.css` (tema silver), `portal.css` (beranda: hero, icon tile, bayangan)
 - `assets/img/`: logo FTI transparan, dipecah menjadi `logo-unand.png`, `logo-fti-mark.png`, `logo-fti-teks.png` untuk animasi, plus `logo-fti.png` utuh dan `favicon.png`
 - Plugin dari CDN jsDelivr (dengan hash SRI): Bootstrap 5.3.3, Bootstrap Icons 1.11.3, Animate.css 4.1.1, Chart.js 4.5.1
 - `sumber/mutu.json`: data mentah yang diedit GPM/GKM. **Tidak di-commit** (ada di `.gitignore`)

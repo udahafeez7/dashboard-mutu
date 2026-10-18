@@ -6,15 +6,16 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src https://cdn.jsdelivr.net; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#e6e9ee">
+<meta name="theme-color" content="#3f4766">
 <title>Masuk · Portal Mutu FTI Universitas Andalas</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" integrity="sha384-Gu3KVV2H9d+yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC" crossorigin="anonymous">
 <link rel="stylesheet" href="assets/ui.css">
+<link rel="stylesheet" href="assets/landing.css">
 </head>
-<body class="login-page">
+<body class="landing">
 
 <!-- Splash awal: tampil sekali per sesi tab -->
 <div id="splash" class="splash" role="status" aria-live="polite" aria-label="Memuat Portal Mutu FTI">
@@ -33,67 +34,182 @@
 </div>
 <script src="assets/splash.js"></script>
 
-<main class="card login-card" id="kartu">
-  <div class="card-body">
-    <div class="pm-logo kilau-saja" aria-hidden="true">
-      <img class="l-unand" src="assets/img/logo-unand.png" alt="">
-      <img class="l-mark" src="assets/img/logo-fti-mark.png" alt="">
-      <img class="l-teks" src="assets/img/logo-fti-teks.png" alt="">
-      <span class="l-kilau"></span>
-    </div>
-    <h1>Portal Mutu</h1>
-    <p class="sub">Gugus Penjamin Mutu · Fakultas Teknologi Informasi Universitas Andalas</p>
+<!-- Latar: gradien, pola titik, jaringan garis -->
+<div class="ld-latar" aria-hidden="true">
+  <div class="ld-titik"></div>
+  <canvas id="jaringan"></canvas>
+  <img class="ld-watermark" src="assets/img/logo-unand.png" alt="">
+</div>
 
-    <form id="f" novalidate autocomplete="on">
-      <div class="form-floating mb-3">
-        <input id="u" name="username" class="form-control" placeholder="username" autocomplete="username" autocapitalize="none" spellcheck="false" required>
-        <label for="u"><i class="bi bi-person"></i>Username</label>
-        <div class="invalid-feedback">Username wajib diisi.</div>
-      </div>
-      <div class="input-group has-validation">
-        <div class="form-floating">
-          <input id="p" name="password" type="password" class="form-control" placeholder="password" autocomplete="current-password" required>
-          <label for="p"><i class="bi bi-lock"></i>Password</label>
-        </div>
-        <button class="btn" type="button" id="lihat" aria-label="Tampilkan password" aria-pressed="false"><i class="bi bi-eye"></i></button>
-        <div class="invalid-feedback">Password wajib diisi.</div>
-      </div>
-      <div class="caps" id="caps" hidden><i class="bi bi-capslock-fill me-1"></i>Caps Lock aktif</div>
+<main class="ld" id="ld">
+  <header class="ld-judul">
+    <h1>Selamat Datang di <span class="pill-judul"><b>PORTAL</b> MUTU</span></h1>
+    <p class="ld-sub">Sistem Penjaminan Mutu Internal Terpadu</p>
+    <p class="pill-unit">Fakultas Teknologi Informasi · Universitas Andalas</p>
+  </header>
 
-      <div class="d-flex justify-content-between align-items-center my-3">
-        <div class="form-check small">
-          <input class="form-check-input" type="checkbox" id="ingat">
-          <label class="form-check-label" for="ingat">Ingat username</label>
-        </div>
-        <button type="button" class="btn btn-link btn-sm p-0 link-secondary text-decoration-none" id="lupa">Lupa password?</button>
-      </div>
-
-      <button class="btn btn-silver btn-lg w-100" id="b" type="submit">
-        <span class="spinner-border spinner-border-sm me-2" id="spin" aria-hidden="true" hidden></span><span id="b-teks">Masuk</span>
+  <div class="ld-pusat" id="pusat">
+    <!-- Menu bulatan, muncul setelah logo diketuk -->
+    <nav class="ld-menu" id="menu" aria-label="Menu portal" aria-hidden="true">
+      <button type="button" class="gelembung g-atas" data-aksi="login" tabindex="-1">
+        <span class="g-ikon"><i class="bi bi-box-arrow-in-right"></i></span><span class="g-teks">Login</span>
       </button>
+      <button type="button" class="gelembung g-kiri" data-aksi="panduan" tabindex="-1">
+        <span class="g-ikon"><i class="bi bi-journal-bookmark"></i></span><span class="g-teks">Panduan Akun</span>
+      </button>
+      <button type="button" class="gelembung g-kanan" data-aksi="bantuan" tabindex="-1">
+        <span class="g-ikon"><i class="bi bi-life-preserver"></i></span><span class="g-teks">Bantuan</span>
+      </button>
+      <button type="button" class="pil-bawah" data-aksi="tentang" tabindex="-1">
+        <span class="g-ikon"><i class="bi bi-info-circle"></i></span>Tentang Portal Mutu
+      </button>
+    </nav>
 
-      <div id="prog" hidden>
-        <div class="progress mt-3" role="progressbar" aria-label="Progres masuk" style="height:4px">
-          <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" id="prog-bar" style="width:0%"></div>
-        </div>
-        <ol class="tahap" id="tahap">
-          <li data-t="akun"><i class="bi bi-circle"></i>Mencari akun</li>
-          <li data-t="kunci"><i class="bi bi-circle"></i>Memverifikasi password &amp; membuka kunci data</li>
-          <li data-t="sukses"><i class="bi bi-circle"></i>Menyiapkan portal</li>
-        </ol>
-      </div>
-    </form>
-
-    <div id="msg" class="alert alert-danger login-alert" role="alert" hidden><i class="bi bi-exclamation-octagon-fill"></i><span></span></div>
-
-    <p class="login-foot"><i class="bi bi-shield-lock-fill"></i><span>Data portal terenkripsi AES-256. Akun diberikan oleh admin GPM FTI.</span></p>
+    <button type="button" class="ld-logo" id="logo" aria-expanded="false" aria-controls="menu" aria-label="Buka menu portal">
+      <span class="ld-riak" aria-hidden="true"></span>
+      <span class="ld-logo-isi">
+        <span class="pm-logo tanpa-teks">
+          <img class="l-unand" src="assets/img/logo-unand.png" alt="">
+          <img class="l-mark" src="assets/img/logo-fti-mark.png" alt="">
+        </span>
+        <span class="ld-logo-cap">FTI · UNAND</span>
+      </span>
+    </button>
+    <p class="ld-ketuk" id="ketuk"><i class="bi bi-hand-index-thumb"></i> Ketuk logo untuk masuk</p>
   </div>
+
+  <blockquote class="ld-kutip" id="kutip" aria-live="polite">“Mutu bukan tujuan akhir, melainkan budaya.”</blockquote>
 </main>
-<p class="login-copy">© 2026 Gugus Penjamin Mutu FTI Universitas Andalas</p>
+
+<!-- Kartu tips keamanan (bisa ditutup) -->
+<aside class="ld-aman animate__animated" id="aman" hidden aria-labelledby="aman-judul">
+  <button type="button" class="btn-close" id="aman-tutup" aria-label="Tutup"></button>
+  <div class="d-flex gap-2">
+    <i class="bi bi-shield-exclamation ld-aman-ikon"></i>
+    <div>
+      <h2 id="aman-judul">Tips Keamanan</h2>
+      <p>Portal Mutu <b>tidak pernah</b> meminta password melalui email, WhatsApp, atau telepon. Password hanya diketik di halaman ini.</p>
+      <ul>
+        <li>Gunakan password yang <b>kuat dan unik</b>, minimal 10 karakter.</li>
+        <li>Selalu klik <b>Keluar</b> setelah selesai, terutama di komputer bersama.</li>
+        <li>Pastikan alamat situs benar sebelum mengetik password.</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+<!-- Navigasi bawah (ponsel) -->
+<nav class="ld-navbawah" aria-label="Navigasi">
+  <button type="button" data-aksi="beranda"><i class="bi bi-house"></i><span>Beranda</span></button>
+  <button type="button" class="fab" data-aksi="login" aria-label="Login"><i class="bi bi-fingerprint"></i></button>
+  <button type="button" data-aksi="bantuan"><i class="bi bi-life-preserver"></i><span>Bantuan</span></button>
+</nav>
+
+<!-- Modal login -->
+<div class="modal fade modal-login" id="m-login" tabindex="-1" aria-labelledby="ml-judul" aria-hidden="true">
+  <button type="button" class="ml-tutup" data-bs-dismiss="modal" aria-label="Tutup"><i class="bi bi-x-lg"></i></button>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" id="kartu">
+      <div class="modal-body">
+        <div class="pm-logo kilau-saja ml-logo" aria-hidden="true">
+          <img class="l-unand" src="assets/img/logo-unand.png" alt="">
+          <img class="l-mark" src="assets/img/logo-fti-mark.png" alt="">
+          <img class="l-teks" src="assets/img/logo-fti-teks.png" alt="">
+          <span class="l-kilau"></span>
+        </div>
+        <h2 class="ml-judul" id="ml-judul">Masuk ke Portal Mutu</h2>
+        <p class="ml-sub">Sistem Penjaminan Mutu Internal FTI Universitas Andalas</p>
+        <div class="ml-info"><i class="bi bi-shield-lock-fill"></i>Data portal terenkripsi AES-256. Belum punya akun? <button type="button" class="btn btn-link p-0 align-baseline" data-aksi="panduan">Lihat panduan</button></div>
+
+        <form id="f" novalidate autocomplete="on">
+          <label class="ml-label" for="u">Username</label>
+          <div class="input-group ml-input has-validation">
+            <span class="input-group-text"><i class="bi bi-person"></i></span>
+            <input id="u" name="username" class="form-control" placeholder="Masukkan username" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+            <div class="invalid-feedback">Username wajib diisi.</div>
+          </div>
+
+          <label class="ml-label" for="p">Password</label>
+          <div class="input-group ml-input has-validation">
+            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+            <input id="p" name="password" type="password" class="form-control" placeholder="Masukkan password" autocomplete="current-password" required>
+            <button class="btn ml-lihat" type="button" id="lihat" aria-label="Tampilkan password" aria-pressed="false"><i class="bi bi-eye"></i></button>
+            <div class="invalid-feedback">Password wajib diisi.</div>
+          </div>
+          <div class="caps" id="caps" hidden><i class="bi bi-capslock-fill me-1"></i>Caps Lock aktif</div>
+
+          <div class="d-flex justify-content-between align-items-center my-3">
+            <div class="form-check small mb-0">
+              <input class="form-check-input" type="checkbox" id="ingat">
+              <label class="form-check-label" for="ingat">Ingat username</label>
+            </div>
+            <button type="button" class="btn btn-link btn-sm p-0 link-secondary text-decoration-none" data-aksi="lupa">Lupa password?</button>
+          </div>
+
+          <div class="ml-tombol">
+            <button type="reset" class="btn btn-light ml-reset" id="reset">Reset</button>
+            <button class="btn btn-silver" id="b" type="submit">
+              <span class="spinner-border spinner-border-sm me-2" id="spin" aria-hidden="true" hidden></span><span id="b-teks">Masuk</span>
+            </button>
+          </div>
+
+          <div id="prog" hidden>
+            <div class="progress mt-3" role="progressbar" aria-label="Progres masuk" style="height:4px">
+              <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" id="prog-bar" style="width:0%"></div>
+            </div>
+            <ol class="tahap" id="tahap">
+              <li data-t="akun"><i class="bi bi-circle"></i>Mencari akun</li>
+              <li data-t="kunci"><i class="bi bi-circle"></i>Memverifikasi password &amp; membuka kunci data</li>
+              <li data-t="sukses"><i class="bi bi-circle"></i>Menyiapkan portal</li>
+            </ol>
+          </div>
+        </form>
+
+        <div id="msg" class="alert alert-danger login-alert" role="alert" hidden><i class="bi bi-exclamation-octagon-fill"></i><span></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal informasi (panduan, bantuan, tentang) -->
+<div class="modal fade modal-silver" id="m-info" tabindex="-1" aria-labelledby="mi-judul" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5 fw-bold" id="mi-judul"></h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body" id="mi-isi"></div>
+    </div>
+  </div>
+</div>
+
+<template id="t-panduan">
+  <ol class="info-langkah">
+    <li><b>Minta akun</b> ke admin GPM FTI. Sebutkan nama, peran (GPM, GKM, atau pimpinan), dan prodi bila GKM.</li>
+    <li><b>Terima username dan password awal</b> secara langsung dari admin, bukan melalui grup percakapan.</li>
+    <li><b>Masuk</b> lewat tombol Login, lalu minta admin mengganti password awal Anda.</li>
+    <li><b>Keluar</b> setelah selesai. Sesi juga berakhir otomatis setelah 30 menit tanpa aktivitas.</li>
+  </ol>
+</template>
+<template id="t-bantuan">
+  <p><b>Lupa password?</b> Hubungi admin GPM FTI. Demi keamanan, password tidak dapat dipulihkan dari portal; admin akan membuatkan password baru.</p>
+  <p><b>Login gagal terus?</b> Pastikan Caps Lock mati dan username ditulis huruf kecil. Bila tetap gagal, minta admin memeriksa akun Anda.</p>
+  <p class="mb-0"><b>Halaman tidak tampil sempurna?</b> Gunakan versi terbaru Chrome, Edge, atau Firefox, lalu muat ulang halaman dengan Ctrl+F5.</p>
+</template>
+<template id="t-tentang">
+  <p>Portal Mutu adalah sistem informasi Gugus Penjamin Mutu (GPM) FTI Universitas Andalas untuk memantau pelaksanaan Renstra 2026-2030.</p>
+  <ul class="info-modul">
+    <li><i class="bi bi-graph-up-arrow"></i><span><b>Monitoring Indikator</b>: capaian 40 IKSS per triwulan.</span></li>
+    <li><i class="bi bi-list-check"></i><span><b>Tindak Lanjut</b>: temuan AMI, RTM, dan evaluasi perkuliahan.</span></li>
+    <li><i class="bi bi-award"></i><span><b>Akreditasi</b>: peringkat prodi, LED, dan evidence 36 standar SPMI.</span></li>
+  </ul>
+</template>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="assets/auth.js"></script>
 <script src="assets/ui.js"></script>
+<script src="assets/latar.js"></script>
 <script src="assets/login.js"></script>
 </body>
 </html>

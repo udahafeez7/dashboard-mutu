@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src https://cdn.jsdelivr.net; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
@@ -16,30 +16,81 @@
 <body class="portal-body" data-loader="Membuka beranda portal">
 <script src="assets/auth.js"></script>
 <script src="assets/ui.js"></script>
+<script src="assets/hitung.js"></script>
 <div class="portal">
-  <section class="hero">
-    <h1 id="sapa">Selamat datang</h1>
-    <p id="sub">Portal Mutu Fakultas Teknologi Informasi Universitas Andalas</p>
-    <div class="ringkas" id="ringkas"></div>
+
+  <!-- Tingkat 1: sapaan -->
+  <section class="hero" aria-labelledby="sapa">
+    <div class="hero-teks">
+      <p class="eyebrow" id="tanggal"></p>
+      <h1 id="sapa">Selamat Datang Kembali</h1>
+      <p class="hero-sub" id="sub"></p>
+      <p class="hero-meta" id="terakhir" hidden><i class="bi bi-clock-history"></i><span></span></p>
+      <div class="hero-aksi">
+        <a class="btn btn-light btn-hero" href="dashboard.html"><i class="bi bi-graph-up-arrow"></i>Buka Dashboard Mutu</a>
+        <a class="btn btn-hero-ghost" href="dashboard.html#tindak"><i class="bi bi-list-check"></i>Tindak lanjut</a>
+      </div>
+    </div>
+    <div class="hero-logo" aria-hidden="true">
+      <div class="pm-logo kilau-saja">
+        <img class="l-unand" src="assets/img/logo-unand.png" alt="">
+        <img class="l-mark" src="assets/img/logo-fti-mark.png" alt="">
+        <img class="l-teks" src="assets/img/logo-fti-teks.png" alt="">
+        <span class="l-kilau"></span>
+      </div>
+    </div>
   </section>
 
-  <section class="modul">
-    <a href="dashboard.html"><h3>Dashboard Mutu</h3><p>Monitoring IKSS Renstra 2026-2030, tindak lanjut AMI/RTM/evaluasi, dan capaian akreditasi prodi.</p></a>
-    <a href="dashboard.html#tindak"><h3>Tindak Lanjut</h3><p>Daftar temuan, PIC, tenggat, progres, dan evidence per unit.</p></a>
-    <a href="dashboard.html#akreditasi"><h3>Akreditasi</h3><p>Peringkat prodi, progres LED, dan kelengkapan evidence 36 standar SPMI.</p></a>
-    <div class="m"><h3>Rujukan</h3><p id="rujukan">Renstra FTI UNAND 2026-2030</p></div>
+  <!-- Tingkat 2: ringkasan mutu -->
+  <section aria-labelledby="h-ringkas">
+    <div class="sec-head">
+      <div><p class="eyebrow" id="periode">Tahun berjalan</p><h2 id="h-ringkas">Ringkasan Mutu</h2></div>
+      <a class="sec-link" href="dashboard.html">Lihat detail <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="tiles" id="ringkas"></div>
   </section>
 
-  <section class="panel" id="panel-admin" hidden>
-    <h2>Akun portal</h2>
-    <p class="hint">Daftar ini dibaca dari <code>data/akun.json</code>. Akun ditambah, dihapus, atau diganti password-nya lewat <code>tools/portal_admin.py</code>, lalu di-commit.</p>
-    <div id="akun"></div>
+  <!-- Tingkat 2: modul -->
+  <section aria-labelledby="h-modul">
+    <div class="sec-head"><div><p class="eyebrow">Akses cepat</p><h2 id="h-modul">Modul Portal</h2></div></div>
+    <div class="modul">
+      <a class="modul-tile" href="dashboard.html">
+        <span class="ikon-tile t-utama"><i class="bi bi-graph-up-arrow"></i></span>
+        <span class="modul-isi"><b>Monitoring Indikator</b><span>Capaian 40 IKSS Renstra 2026-2030 per triwulan.</span></span>
+        <i class="bi bi-chevron-right modul-panah"></i>
+      </a>
+      <a class="modul-tile" href="dashboard.html#tindak">
+        <span class="ikon-tile t-biru"><i class="bi bi-list-check"></i></span>
+        <span class="modul-isi"><b>Tindak Lanjut</b><span>Temuan AMI, RTM, dan evaluasi: PIC, tenggat, progres.</span></span>
+        <i class="bi bi-chevron-right modul-panah"></i>
+      </a>
+      <a class="modul-tile" href="dashboard.html#akreditasi">
+        <span class="ikon-tile t-amber"><i class="bi bi-award"></i></span>
+        <span class="modul-isi"><b>Capaian Akreditasi</b><span>Peringkat prodi, LED, dan evidence 36 standar SPMI.</span></span>
+        <i class="bi bi-chevron-right modul-panah"></i>
+      </a>
+      <div class="modul-tile statis">
+        <span class="ikon-tile t-netral"><i class="bi bi-journal-text"></i></span>
+        <span class="modul-isi"><b>Rujukan</b><span id="rujukan">Renstra FTI UNAND 2026-2030</span></span>
+      </div>
+    </div>
   </section>
 
-  <section class="panel">
-    <h2>Keamanan akun</h2>
-    <p class="hint">Data portal dienkripsi; hanya pemilik akun yang dapat membukanya. Sesi berakhir otomatis setelah 30 menit tanpa aktivitas atau saat tab ditutup.</p>
-    <p class="hint">Ganti password: minta admin GPM menjalankan <code>python tools/portal_admin.py ubah-sandi &lt;username&gt;</code>, atau jalankan sendiri bila Anda punya akses ke repositori.</p>
+  <!-- Tingkat 3: administrasi & keamanan -->
+  <section aria-labelledby="h-admin" id="panel-admin" hidden>
+    <div class="sec-head"><div><p class="eyebrow">Khusus admin</p><h2 id="h-admin">Akun Portal</h2></div></div>
+    <div class="panel">
+      <p class="hint">Dibaca dari <code>data/akun.json</code>. Tambah, hapus, atau ganti password lewat <code>tools/portal_admin.py</code>, lalu commit.</p>
+      <div id="akun"></div>
+    </div>
+  </section>
+
+  <section class="panel panel-aman" aria-labelledby="h-aman">
+    <span class="ikon-tile kecil t-netral"><i class="bi bi-shield-lock"></i></span>
+    <div>
+      <h2 id="h-aman">Keamanan akun</h2>
+      <p class="hint">Data portal dienkripsi; hanya pemilik akun yang dapat membukanya. Sesi berakhir otomatis setelah 30 menit tanpa aktivitas atau saat tab ditutup. Untuk ganti password, minta admin GPM menjalankan <code>python tools/portal_admin.py ubah-sandi &lt;username&gt;</code>.</p>
+    </div>
   </section>
   <footer id="foot"></footer>
 </div>
