@@ -25,16 +25,16 @@ window.SPLASH = (() => {
   return (async () => {
     let galat = null;
     await langkah(6, "Memulai Portal Mutu…", null, 650);
-    await langkah(28, "Memeriksa modul keamanan browser…", null, 550);
-    if (!window.crypto || !crypto.subtle) galat = "Browser ini tidak mendukung Web Crypto. Buka portal melalui https:// atau http://localhost.";
+    await langkah(28, "Memeriksa browser…", null, 550);
+    if (!window.fetch) galat = "Browser ini terlalu lama. Gunakan versi terbaru Chrome, Edge, atau Firefox.";
 
     if (!galat) {
       const r = await langkah(56, "Menghubungkan ke server portal…", async () => {
-        const res = await fetch("data/akun.json?ts=" + Date.now(), {cache: "no-store"});
+        const res = await fetch("/api/status", {cache: "no-store"});
         if (!res.ok) throw new Error(res.status);
         await res.json();
       }, 600);
-      if (r instanceof Error) galat = "Server portal tidak dapat dihubungi. Periksa koneksi internet lalu muat ulang halaman.";
+      if (r instanceof Error) galat = "Server portal atau database tidak dapat dihubungi. Coba muat ulang halaman; bila tetap gagal, hubungi admin GPM.";
     }
 
     if (!galat) await langkah(82, "Menyiapkan tampilan…", () => Promise.race([

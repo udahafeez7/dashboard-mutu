@@ -78,18 +78,18 @@
 
   <!-- Tingkat 3: administrasi & keamanan -->
   <section aria-labelledby="h-admin" id="panel-admin" hidden>
-    <div class="sec-head"><div><p class="eyebrow">Khusus admin</p><h2 id="h-admin">Akun Portal</h2></div></div>
-    <div class="panel">
-      <p class="hint">Dibaca dari <code>data/akun.json</code>. Tambah, hapus, atau ganti password lewat <code>tools/portal_admin.py</code>, lalu commit.</p>
-      <div id="akun"></div>
+    <div class="sec-head">
+      <div><p class="eyebrow">Khusus admin</p><h2 id="h-admin">Status Akun Portal</h2></div>
+      <a class="sec-link" href="kelola-akun.html">Kelola akun <i class="bi bi-arrow-right"></i></a>
     </div>
+    <div class="tiles tiles-4" id="ringkas-akun"></div>
   </section>
 
   <section class="panel panel-aman" aria-labelledby="h-aman">
     <span class="ikon-tile kecil t-netral"><i class="bi bi-shield-lock"></i></span>
     <div>
       <h2 id="h-aman">Keamanan akun</h2>
-      <p class="hint">Data portal dienkripsi; hanya pemilik akun yang dapat membukanya. Sesi berakhir otomatis setelah 30 menit tanpa aktivitas atau saat tab ditutup. Untuk ganti password, minta admin GPM menjalankan <code>python tools/portal_admin.py ubah-sandi &lt;username&gt;</code>.</p>
+      <p class="hint">Sesi berakhir otomatis setelah tidak ada aktivitas, dan akun terkunci sementara setelah beberapa kali salah password. Ganti password secara berkala lewat menu <a href="akun-saya.html#sandi">Akun Saya &gt; Ganti Password</a>.</p>
     </div>
   </section>
   <footer id="foot"></footer>

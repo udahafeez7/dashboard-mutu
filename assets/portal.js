@@ -1,7 +1,8 @@
 "use strict";
 (async () => {
-  const s = Auth.wajib();
-  Auth.bilah(s, "portal.html");
+  let s;
+  try { s = await Auth.wajib(); } catch (e) { return; }   // dialihkan ke halaman masuk
+  UI.kerangka(s);
   UI.jagaSesi();
   const el = id => document.getElementById(id);
   const mk = (tag, cls, teks) => { const e = document.createElement(tag); if (cls) e.className = cls; if (teks != null) e.textContent = teks; return e; };
@@ -15,7 +16,7 @@
   el("sub").textContent = (Auth.PERAN[s.peran] || s.peran) + (s.prodi ? " · " + s.prodi : "") + " · Portal Mutu FTI Universitas Andalas";
   if (s.terakhir) {
     el("terakhir").hidden = false;
-    el("terakhir").querySelector("span").textContent = "Terakhir masuk di perangkat ini: " + tglPanjang(s.terakhir) + ", pukul " +
+    el("terakhir").querySelector("span").textContent = "Terakhir masuk: " + tglPanjang(s.terakhir) + ", pukul " +
       new Date(s.terakhir).toLocaleTimeString("id-ID", {hour: "2-digit", minute: "2-digit"});
   }
 
@@ -27,7 +28,7 @@
     t.append(i, isi);
     return t;
   };
-  const TAHAP = {unduh: "Mengunduh data terenkripsi…", dekripsi: "Mendekripsi data (AES-256-GCM)…"};
+  const TAHAP = {unduh: "Mengambil data dari server…", olah: "Menyiapkan ringkasan…"};
   try {
     const D = await Auth.muatMutu(t => UI.loader.pesan(TAHAP[t]));
     const R = Mutu.ringkas(D), yr = D.meta.tahun_berjalan;
@@ -59,25 +60,19 @@
     el("ringkas").replaceChildren(tile("bi-exclamation-triangle", "bad", "Data", "Gagal dibuka", e.message));
   }
 
-  /* ---------- akun (admin) ---------- */
+  /* ---------- ringkasan akun (admin) ---------- */
   UI.loader.pesan("Menyusun beranda…");
   if (s.peran === "admin") {
     el("panel-admin").hidden = false;
     try {
-      const rows = (await Auth.daftarAkun()).sort((a, b) => a.u.localeCompare(b.u));
-      const t = mk("table");
-      const head = mk("tr");
-      ["Username", "Nama", "Peran", "Prodi", "Dibuat"].forEach(x => head.append(mk("th", null, x)));
-      const thead = mk("thead"); thead.append(head);
-      const tb = mk("tbody");
-      rows.forEach(r => {
-        const tr = mk("tr");
-        [r.u, r.nama, Auth.PERAN[r.peran] || r.peran, r.prodi || "–", r.dibuat || "–"].forEach(v => tr.append(mk("td", null, v)));
-        tb.append(tr);
-      });
-      t.append(thead, tb);
-      el("akun").replaceChildren(t);
-    } catch (e) { el("akun").textContent = "Gagal membaca daftar akun: " + e.message; }
+      const {akun} = await Auth.api("GET", "/api/akun");
+      const n = f => akun.filter(f).length;
+      el("ringkas-akun").replaceChildren(
+        tile("bi-people", "utama", "Total akun", akun.length, n(a => a.aktif) + " aktif"),
+        tile("bi-person-dash", n(a => !a.aktif) ? "warn" : "ok", "Nonaktif", n(a => !a.aktif), "tidak bisa masuk"),
+        tile("bi-lock", n(a => a.terkunci) ? "bad" : "ok", "Terkunci", n(a => a.terkunci), "terlalu banyak percobaan gagal"),
+        tile("bi-key", n(a => a.wajib_ganti_sandi) ? "warn" : "ok", "Belum ganti password awal", n(a => a.wajib_ganti_sandi), "masih memakai password sementara"));
+    } catch (e) { el("ringkas-akun").textContent = "Gagal membaca ringkasan akun: " + e.message; }
   }
   UI.loader.sembunyi(900);
 })();

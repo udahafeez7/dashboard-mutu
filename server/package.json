@@ -1,0 +1,26 @@
+{
+  "name": "portal-mutu-fti-server",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Backend Portal Mutu FTI Universitas Andalas: login sesi, manajemen akun MySQL, API data mutu.",
+  "type": "commonjs",
+  "main": "src/app.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js",
+    "siapkan": "node scripts/siapkan.js",
+    "impor-data": "node scripts/impor-data.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "express-session": "^1.19.0",
+    "helmet": "^8.3.0",
+    "mysql2": "^3.24.6"
+  }
+}

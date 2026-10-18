@@ -5,7 +5,6 @@
   const SIMPAN = "portalMutu.username", AMAN = "portalMutu.tipsDitutup";
   const simpan = {get(k){ try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set(k, v){ try { sessionStorage.setItem(k, v); } catch (e) { /* abaikan */ } }};
 
-  if (Auth.sesi()) { location.replace(Auth.tujuanSetelahLogin()); return; }
 
   const mLogin = new bootstrap.Modal($("m-login"));
   const mInfo = new bootstrap.Modal($("m-info"));
@@ -29,6 +28,8 @@
   const pesan = Auth.pesan();
   if (pesan) UI.toast(pesan, /berakhir/i.test(pesan) ? "peringatan" : "sukses", {judul: /berakhir/i.test(pesan) ? "Sesi berakhir" : "Berhasil keluar"});
   if (hasil.galat) UI.toast(hasil.galat, "galat", {judul: "Portal belum siap", tetap: true});
+  // Dialihkan dari halaman terlindungi: langsung tampilkan form masuk.
+  if (new URLSearchParams(location.search).has("kembali")) setTimeout(() => mLogin.show(), 400);
 
   /* ---------- kutipan bergantian ---------- */
   const KUTIP = [
@@ -99,7 +100,6 @@
     msg.querySelector("span").textContent = teks; msg.hidden = !teks;
     if (teks) { msg.classList.remove("animate__animated", "animate__fadeIn"); void msg.offsetWidth; msg.classList.add("animate__animated", "animate__fadeIn"); }
   };
-  if (!window.crypto || !crypto.subtle) { galat("Browser ini tidak mendukung Web Crypto. Buka portal melalui https:// atau http://localhost."); b.disabled = true; }
 
   try { const s = localStorage.getItem(SIMPAN); if (s) { u.value = s; $("ingat").checked = true; } } catch (e) { /* abaikan */ }
 
@@ -155,6 +155,12 @@
       const s = await Auth.login(nu, np, x => tahap(x));
       try { $("ingat").checked ? localStorage.setItem(SIMPAN, nu) : localStorage.removeItem(SIMPAN); } catch (er) { /* abaikan */ }
       await UI.tunggu(Math.max(0, 650 - (Date.now() - t0)));
+      if (s.wajib_ganti_sandi) {
+        UI.loader.tampil("Halo, " + s.nama, "Silakan ganti password sementara Anda…", {logo: "kilau-saja"});
+        await UI.tunggu(UI.HEMAT ? 0 : 900);
+        location.replace("akun-saya.html?wajib=1");
+        return;
+      }
       UI.loader.tampil("Selamat datang kembali, " + s.nama, "Membuka Portal Mutu…", {logo: "kilau-saja"});
       await UI.tunggu(UI.HEMAT ? 0 : 900);
       location.replace(Auth.tujuanSetelahLogin());

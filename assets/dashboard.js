@@ -1,9 +1,7 @@
 "use strict";
-const SESI = Auth.wajib();
-Auth.bilah(SESI, "dashboard.html");
-UI.jagaSesi();
-const TAHAP = {unduh: "Mengunduh data terenkripsi…", dekripsi: "Mendekripsi data (AES-256-GCM)…"};
-let DATA = null, sumber = "data/mutu.enc.json";
+let SESI = null;   // diisi oleh mulai() setelah server memastikan sesi
+const TAHAP = {unduh: "Mengambil data dari server…", olah: "Menyiapkan data…"};
+let DATA = null, sumber = "server Portal Mutu";
 const charts = {};
 const TABS = ["indikator","tindak","akreditasi"];
 const state = {prodi:"Semua", sasaran:"Semua", tab:TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "indikator", standar:"pendidikan", sel:null, sort:{}};
@@ -346,7 +344,7 @@ function render(){
   document.getElementById("sapa").textContent = "Selamat Datang Kembali, " + SESI.nama;
   const b = document.getElementById("banner");
   b.classList.toggle("hidden", !DATA.meta.data_contoh);
-  b.textContent = "Target dan baseline bersumber dari Renstra (SK Dekan No. 67/UN16.15.D/KPT/VIII/2026). Realisasi, status tindak lanjut, dan nilai evidence masih DATA CONTOH: ganti isi sumber/mutu.json dengan data GKM/GPM lalu enkripsi ulang sebelum dipakai untuk keputusan.";
+  b.textContent = "Target dan baseline bersumber dari Renstra (SK Dekan No. 67/UN16.15.D/KPT/VIII/2026). Realisasi, status tindak lanjut, dan nilai evidence masih DATA CONTOH: unggah data GKM/GPM lewat menu Pengaturan > Data Dashboard sebelum dipakai untuk keputusan.";
   renderTimeline(); renderKPIs();
   for (const t of TABS) document.getElementById("tab-"+t).classList.toggle("hidden", state.tab !== t);
   document.querySelectorAll("#tabs button").forEach(x => x.setAttribute("aria-selected", x.dataset.tab === state.tab));
@@ -380,7 +378,18 @@ async function load(){
 document.getElementById("f-prodi").addEventListener("change", e => { state.prodi = e.target.value; render(); });
 document.getElementById("f-sasaran").addEventListener("change", e => { state.sasaran = e.target.value; state.sel = null; render(); });
 document.getElementById("f-standar").addEventListener("change", e => { state.standar = e.target.value; render(); });
-document.getElementById("tabs").addEventListener("click", e => { const btn = e.target.closest("[data-tab]"), t = btn && btn.dataset.tab; if (t) { state.tab = t; history.replaceState(null, "", "#" + t); render(); } });
-addEventListener("hashchange", () => { const t = location.hash.slice(1); if (TABS.includes(t) && DATA) { state.tab = t; render(); } });
-load();
-setInterval(load, 60000);
+document.getElementById("tabs").addEventListener("click", e => {
+  const btn = e.target.closest("[data-tab]"), t = btn && btn.dataset.tab;
+  if (!t) return;
+  state.tab = t; history.replaceState(null, "", "#" + t); render();
+  dispatchEvent(new HashChangeEvent("hashchange"));   // agar sorotan submenu sidebar ikut berpindah
+});
+addEventListener("hashchange", () => { const t = location.hash.slice(1); if (TABS.includes(t) && DATA && state.tab !== t) { state.tab = t; render(); } });
+
+(async function mulai(){
+  try { SESI = await Auth.wajib(); } catch (e) { return; }   // dialihkan ke halaman masuk
+  UI.kerangka(SESI);
+  UI.jagaSesi();
+  await load();
+  setInterval(load, 60000);
+})();

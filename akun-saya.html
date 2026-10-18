@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>Akun Saya · Portal Mutu FTI Universitas Andalas</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
+<link rel="stylesheet" href="assets/portal.css">
+<link rel="stylesheet" href="assets/ui.css">
+<link rel="stylesheet" href="assets/halaman.css">
+</head>
+<body class="portal-body" data-loader="Membuka Akun Saya">
+<script src="assets/auth.js"></script>
+<script src="assets/ui.js"></script>
+<div class="portal">
+  <header class="hal-kepala">
+    <p class="eyebrow">Akun saya</p>
+    <h1>Profil &amp; Keamanan Akun</h1>
+    <p class="hal-sub">Perbarui data diri dan ganti password Anda.</p>
+  </header>
+
+  <div class="alert alert-warning hal-wajib" id="wajib" role="alert" hidden>
+    <i class="bi bi-shield-exclamation"></i>
+    <div><b>Ganti password sementara Anda.</b> Akun ini masih memakai password dari admin. Fitur portal lain dapat dibuka setelah password diganti.</div>
+  </div>
+
+  <div class="hal-grid">
+    <section class="kartu" aria-labelledby="h-profil" id="profil">
+      <div class="kartu-kepala"><span class="ikon-tile kecil t-utama"><i class="bi bi-person-circle"></i></span><div><h2 id="h-profil">Profil</h2><p>Nama dan email tampil di log aktivitas dan daftar akun.</p></div></div>
+      <form id="f-profil" novalidate>
+        <dl class="info-akun">
+          <dt>Username</dt><dd id="i-username">–</dd>
+          <dt>Peran</dt><dd id="i-peran">–</dd>
+          <dt>Prodi</dt><dd id="i-prodi">–</dd>
+          <dt>Masuk sebelumnya</dt><dd id="i-terakhir">–</dd>
+        </dl>
+        <label class="form-label" for="p-nama">Nama lengkap</label>
+        <input class="form-control" id="p-nama" maxlength="120" required autocomplete="name">
+        <div class="invalid-feedback">Nama wajib diisi.</div>
+        <label class="form-label mt-3" for="p-email">Email <span class="text-secondary fw-normal">(opsional)</span></label>
+        <input class="form-control" id="p-email" type="email" maxlength="160" autocomplete="email" placeholder="nama@it.unand.ac.id">
+        <div class="invalid-feedback">Format email tidak valid.</div>
+        <p class="form-text">Username, peran, dan prodi hanya bisa diubah oleh admin.</p>
+        <div class="kartu-aksi"><button class="btn btn-silver" type="submit" id="b-profil"><i class="bi bi-check2 me-1"></i>Simpan profil</button></div>
+      </form>
+    </section>
+
+    <section class="kartu" aria-labelledby="h-sandi" id="sandi">
+      <div class="kartu-kepala"><span class="ikon-tile kecil t-amber"><i class="bi bi-key"></i></span><div><h2 id="h-sandi">Ganti Password</h2><p>Setelah diganti, sesi di perangkat lain otomatis diakhiri.</p></div></div>
+      <form id="f-sandi" novalidate autocomplete="on">
+        <input type="text" name="username" id="s-user" autocomplete="username" hidden>
+        <label class="form-label" for="s-lama">Password saat ini</label>
+        <input class="form-control" id="s-lama" type="password" autocomplete="current-password" required>
+        <label class="form-label mt-3" for="s-baru">Password baru</label>
+        <div class="input-group">
+          <input class="form-control" id="s-baru" type="password" autocomplete="new-password" required aria-describedby="aturan">
+          <button class="btn btn-outline-secondary" type="button" id="s-lihat" aria-label="Tampilkan password"><i class="bi bi-eye"></i></button>
+        </div>
+        <div class="kekuatan" aria-hidden="true"><i id="s-meter"></i></div>
+        <ul class="aturan" id="aturan">
+          <li data-a="panjang"><i class="bi bi-circle"></i>Minimal <span id="s-min">10</span> karakter</li>
+          <li data-a="campur"><i class="bi bi-circle"></i>Mengandung huruf dan angka</li>
+          <li data-a="user"><i class="bi bi-circle"></i>Tidak memuat username</li>
+          <li data-a="beda"><i class="bi bi-circle"></i>Berbeda dari password saat ini</li>
+        </ul>
+        <label class="form-label mt-2" for="s-ulang">Ulangi password baru</label>
+        <input class="form-control" id="s-ulang" type="password" autocomplete="new-password" required>
+        <div class="invalid-feedback">Password tidak sama.</div>
+        <div class="alert alert-danger py-2 mt-3 small" id="s-galat" role="alert" hidden></div>
+        <div class="kartu-aksi"><button class="btn btn-silver" type="submit" id="b-sandi"><i class="bi bi-shield-check me-1"></i>Ganti password</button></div>
+      </form>
+    </section>
+  </div>
+
+  <section class="kartu kartu-tipis" aria-labelledby="h-sesi">
+    <div class="kartu-kepala"><span class="ikon-tile kecil t-netral"><i class="bi bi-clock-history"></i></span><div><h2 id="h-sesi">Sesi saat ini</h2><p id="i-sesi">–</p></div></div>
+  </section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="assets/akun-saya.js"></script>
+</body>
+</html>

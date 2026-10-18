@@ -119,7 +119,7 @@
         </div>
         <h2 class="ml-judul" id="ml-judul">Masuk ke Portal Mutu</h2>
         <p class="ml-sub">Sistem Penjaminan Mutu Internal FTI Universitas Andalas</p>
-        <div class="ml-info"><i class="bi bi-shield-lock-fill"></i>Data portal terenkripsi AES-256. Belum punya akun? <button type="button" class="btn btn-link p-0 align-baseline" data-aksi="panduan">Lihat panduan</button></div>
+        <div class="ml-info"><i class="bi bi-shield-lock-fill"></i>Akun dibuat oleh admin GPM FTI. Belum punya akun? <button type="button" class="btn btn-link p-0 align-baseline" data-aksi="panduan">Lihat panduan</button></div>
 
         <form id="f" novalidate autocomplete="on">
           <label class="ml-label" for="u">Username</label>
@@ -158,8 +158,8 @@
               <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" id="prog-bar" style="width:0%"></div>
             </div>
             <ol class="tahap" id="tahap">
-              <li data-t="akun"><i class="bi bi-circle"></i>Mencari akun</li>
-              <li data-t="kunci"><i class="bi bi-circle"></i>Memverifikasi password &amp; membuka kunci data</li>
+              <li data-t="akun"><i class="bi bi-circle"></i>Menghubungi server</li>
+              <li data-t="kunci"><i class="bi bi-circle"></i>Memverifikasi username &amp; password</li>
               <li data-t="sukses"><i class="bi bi-circle"></i>Menyiapkan portal</li>
             </ol>
           </div>
@@ -186,15 +186,16 @@
 
 <template id="t-panduan">
   <ol class="info-langkah">
-    <li><b>Minta akun</b> ke admin GPM FTI. Sebutkan nama, peran (GPM, GKM, atau pimpinan), dan prodi bila GKM.</li>
-    <li><b>Terima username dan password awal</b> secara langsung dari admin, bukan melalui grup percakapan.</li>
-    <li><b>Masuk</b> lewat tombol Login, lalu minta admin mengganti password awal Anda.</li>
-    <li><b>Keluar</b> setelah selesai. Sesi juga berakhir otomatis setelah 30 menit tanpa aktivitas.</li>
+    <li><b>Minta akun</b> ke admin GPM FTI. Sebutkan nama, email, peran (GPM, GKM, atau pimpinan), dan prodi bila GKM. Pendaftaran akun hanya dilakukan oleh admin.</li>
+    <li><b>Terima username dan password sementara</b> secara langsung dari admin, bukan melalui grup percakapan.</li>
+    <li><b>Masuk</b> lewat tombol Login. Portal langsung meminta Anda <b>mengganti password sementara</b> sebelum fitur lain bisa dipakai.</li>
+    <li><b>Keluar</b> setelah selesai. Sesi juga berakhir otomatis bila tidak ada aktivitas.</li>
   </ol>
 </template>
 <template id="t-bantuan">
-  <p><b>Lupa password?</b> Hubungi admin GPM FTI. Demi keamanan, password tidak dapat dipulihkan dari portal; admin akan membuatkan password baru.</p>
-  <p><b>Login gagal terus?</b> Pastikan Caps Lock mati dan username ditulis huruf kecil. Bila tetap gagal, minta admin memeriksa akun Anda.</p>
+  <p><b>Lupa password?</b> Hubungi admin GPM FTI. Admin akan mereset password Anda menjadi password sementara yang wajib diganti saat masuk.</p>
+  <p><b>Akun terkunci?</b> Setelah beberapa kali salah password, akun dikunci sementara. Tunggu beberapa menit, atau minta admin membuka kuncinya.</p>
+  <p><b>Login gagal terus?</b> Pastikan Caps Lock mati dan username ditulis huruf kecil. Bila tetap gagal, minta admin memeriksa status akun Anda.</p>
   <p class="mb-0"><b>Halaman tidak tampil sempurna?</b> Gunakan versi terbaru Chrome, Edge, atau Firefox, lalu muat ulang halaman dengan Ctrl+F5.</p>
 </template>
 <template id="t-tentang">

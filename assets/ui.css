@@ -75,25 +75,75 @@
 .login-alert{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin:14px 0 0;padding:9px 12px}
 .caps{font-size:12px;color:#9a5b00;margin-top:6px}
 
-/* ---------- bilah portal (silver) ---------- */
-.pbar{background:linear-gradient(180deg,#fdfdfe,#e6e9ee);color:var(--sv-ink);border-bottom:1px solid var(--sv-300);box-shadow:0 1px 6px rgba(31,38,51,.08);
-  position:sticky;top:env(safe-area-inset-top,0px);z-index:1030}
-.pbar img.pbar-logo{height:30px;width:auto;margin-right:8px}
+/* ---------- bilah atas (silver) ---------- */
+:root{--tb-h:58px;--sb-w:260px;--sb-mini:74px}
+.pbar{height:var(--tb-h);flex-wrap:nowrap!important;background:linear-gradient(180deg,#fdfdfe,#e6e9ee);color:var(--sv-ink);border-bottom:1px solid var(--sv-300);
+  box-shadow:0 1px 6px rgba(31,38,51,.08);position:sticky;top:env(safe-area-inset-top,0px);z-index:1030}
+.pbar-l,.pbar-r{flex-wrap:nowrap!important;min-width:0}
+.pbar img.pbar-logo{height:30px;width:auto}
 .pbar a{color:var(--sv-700)}
 .pbar a:hover{color:var(--sv-ink)}
-.pbar a[aria-current=page]{color:var(--sv-ink);border-bottom-color:var(--sv-600)}
-.pbar .avatar{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--sv-btn);color:#fff;font-size:12px;font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
-.pbar .who{display:flex;flex-direction:column;line-height:1.15}
-.pbar .who b{font-size:13px;margin:0}
-.pbar .who small{font-size:11px;color:var(--sv-600)}
-.pbar button.keluar{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--sv-700);border:1px solid var(--sv-300);border-radius:8px;padding:5px 12px;font:inherit;font-size:12.5px}
+.pbar-brand{display:flex;align-items:center;gap:10px;border-bottom:0!important;color:var(--sv-ink)!important}
+.pbar-brand b{font-size:14.5px;white-space:nowrap}
+.sb-tombol{display:inline-grid;place-items:center;width:40px;height:40px;border:0;border-radius:10px;background:transparent;color:var(--sv-700);font-size:22px}
+.sb-tombol:hover{background:#e3e7ee;color:var(--sv-ink)}
+.sb-tombol:focus-visible,.sb-link:focus-visible,.sb-mini:focus-visible{outline:2px solid #5b6488;outline-offset:2px}
+.pbar .avatar{flex:0 0 auto;display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--sv-btn);color:#fff;font-size:12px;font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.pbar .who{display:flex;flex-direction:column;line-height:1.15;border-bottom:0!important;min-width:0}
+.pbar .who b{font-size:13px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
+.pbar .who small{font-size:11px;color:var(--sv-600);white-space:nowrap}
+.pbar button.keluar{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--sv-700);border:1px solid var(--sv-300);border-radius:8px;padding:6px 12px;font:inherit;font-size:12.5px;white-space:nowrap}
 .pbar button.keluar:hover{background:#fbe9ea;color:#a3212a;border-color:#efc2c5}
 
+/* ---------- sidebar ---------- */
+.sidebar{position:fixed;top:var(--tb-h);left:0;bottom:0;width:var(--sb-w);z-index:1020;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,#fbfcfd 0%,#eef0f4 100%);border-right:1px solid var(--sv-300);box-shadow:2px 0 12px rgba(31,38,51,.05);
+  transition:width .25s ease,transform .25s ease;font:13.5px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.sb-isi{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 12px 10px}
+.sb-grup+.sb-grup{margin-top:16px}
+.sb-judul{font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--sv-500);padding:0 12px 6px;white-space:nowrap}
+.sidebar ul{list-style:none;margin:0;padding:0}
+.sb-link{display:flex;align-items:center;gap:12px;padding:9px 12px;margin:1px 0;border-radius:10px;color:var(--sv-700);text-decoration:none;font-weight:600;white-space:nowrap;overflow:hidden;transition:background .15s,color .15s}
+.sb-link i{flex:0 0 22px;font-size:18px;text-align:center}
+.sb-link:hover{background:#e4e7ee;color:var(--sv-ink)}
+.sb-link[aria-current=page]{background:linear-gradient(145deg,#5b6488,#2f3650);color:#fff;box-shadow:0 6px 14px rgba(47,54,80,.28)}
+.sb-sub{margin:3px 0 4px 23px!important;padding-left:12px!important;border-left:1px solid var(--sv-300)}
+.sb-anak{padding:6px 10px;font-size:12.5px;font-weight:500}
+.sb-anak[aria-current=location]{background:#e1e5ec;color:var(--sv-ink);font-weight:700}
+.sb-kaki{border-top:1px solid var(--sv-300);padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:4px}
+.sb-sesi{display:flex;align-items:center;gap:12px;padding:4px 12px;font-size:12px;color:var(--sv-600);white-space:nowrap;overflow:hidden}
+.sb-sesi i{flex:0 0 22px;text-align:center;font-size:15px}
+.sb-mini{display:flex;align-items:center;gap:12px;padding:8px 12px;border:0;border-radius:10px;background:transparent;color:var(--sv-600);font:inherit;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden}
+.sb-mini i{flex:0 0 22px;text-align:center;transition:transform .25s}
+.sb-mini:hover{background:#e4e7ee;color:var(--sv-ink)}
+.sb-tirai{display:none}
+body.ber-sidebar{padding-left:var(--sb-w);transition:padding-left .25s ease}
+/* Bilah atas membentang penuh di atas sidebar: tarik keluar dari padding kiri body. */
+body.ber-sidebar .pbar{margin-left:calc(-1 * var(--sb-w));transition:margin-left .25s ease}
+@media (min-width:992px){
+  body.ber-sidebar.sb-ciut{padding-left:var(--sb-mini)}
+  body.ber-sidebar.sb-ciut .pbar{margin-left:calc(-1 * var(--sb-mini))}
+  .sb-ciut .sidebar{width:var(--sb-mini)}
+  .sb-ciut .sb-teks,.sb-ciut .sb-sub{display:none}
+  .sb-ciut .sb-judul{font-size:0;padding:0;margin:0 12px 8px;border-top:1px solid var(--sv-300)}
+  .sb-ciut .sb-link,.sb-ciut .sb-mini,.sb-ciut .sb-sesi{justify-content:center;padding-left:0;padding-right:0}
+  .sb-ciut .sb-mini i{transform:rotate(180deg)}
+}
+@media (max-width:991.98px){
+  body.ber-sidebar{padding-left:0}
+  body.ber-sidebar .pbar{margin-left:0}
+  .sidebar{width:min(290px,84vw);transform:translateX(-102%);box-shadow:8px 0 30px rgba(20,24,38,.22)}
+  body.sb-terbuka .sidebar{transform:none}
+  .sb-tirai{display:block;position:fixed;inset:var(--tb-h) 0 0 0;z-index:1015;background:rgba(20,24,38,.35);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .25s}
+  body.sb-terbuka .sb-tirai{opacity:1;pointer-events:auto}
+  .sb-mini{display:none}
+}
 @media (max-width:640px){
-  .pbar{padding:8px 14px}
-  .pbar-l>b,.pbar .who{display:none}
+  .pbar{padding:8px 12px!important}
+  .pbar-brand b,.pbar .who,.keluar-teks{display:none}
   .pbar img.pbar-logo{height:26px}
 }
+@media (prefers-reduced-motion:reduce){.sidebar,body.ber-sidebar,.sb-tirai{transition:none}}
 
 /* ---------- latar logo FTI di dalam portal ---------- */
 .latar-fti{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;

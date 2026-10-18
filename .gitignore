@@ -1,6 +1,10 @@
-# Data mentah TIDAK boleh di-commit: yang dipublikasikan hanya versi terenkripsi (data/mutu.enc.json)
+# Data mentah TIDAK di-commit: data dashboard disimpan di MySQL (tabel data_mutu)
 sumber/
 /mutu.json
 data/mutu.json
 *.tmp
 __pycache__/
+
+# Backend Node.js
+server/.env
+server/node_modules/
