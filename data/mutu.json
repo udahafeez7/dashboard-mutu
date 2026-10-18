@@ -1,0 +1,1043 @@
+{
+ "meta": {
+  "judul": "Dashboard Mutu Fakultas",
+  "diperbarui": "2026-10-18",
+  "data_contoh": true,
+  "periode": [
+   "2026-01",
+   "2026-02",
+   "2026-03",
+   "2026-04",
+   "2026-05",
+   "2026-06",
+   "2026-07",
+   "2026-08",
+   "2026-09"
+  ],
+  "sumber": "Data contoh - ganti dengan data GKM/GPM"
+ },
+ "prodi": [
+  {
+   "id": "P1",
+   "nama": "Prodi A",
+   "gkm": "GKM A"
+  },
+  {
+   "id": "P2",
+   "nama": "Prodi B",
+   "gkm": "GKM B"
+  },
+  {
+   "id": "P3",
+   "nama": "Prodi C",
+   "gkm": "GKM C"
+  },
+  {
+   "id": "P4",
+   "nama": "Prodi D",
+   "gkm": "GKM D"
+  }
+ ],
+ "indikator": [
+  {
+   "id": "P1-IKU-01",
+   "prodi": "Prodi A",
+   "kode": "IKU-01",
+   "nama": "Kehadiran dosen dalam perkuliahan",
+   "bidang": "Akademik",
+   "satuan": "%",
+   "target": 90,
+   "arah": "naik",
+   "nilai": [
+    78.65,
+    79.75,
+    81.45,
+    81.17,
+    82.47,
+    84.23,
+    85.23,
+    86.71,
+    87.37
+   ]
+  },
+  {
+   "id": "P1-IKU-02",
+   "prodi": "Prodi A",
+   "kode": "IKU-02",
+   "nama": "Kepuasan mahasiswa terhadap pembelajaran",
+   "bidang": "Akademik",
+   "satuan": "skala 4",
+   "target": 3.5,
+   "arah": "naik",
+   "nilai": [
+    3.58,
+    3.62,
+    3.65,
+    3.66,
+    3.73,
+    3.74,
+    3.83,
+    3.85,
+    3.91
+   ]
+  },
+  {
+   "id": "P1-IKU-03",
+   "prodi": "Prodi A",
+   "kode": "IKU-03",
+   "nama": "Ketepatan waktu kelulusan",
+   "bidang": "Akademik",
+   "satuan": "%",
+   "target": 70,
+   "arah": "naik",
+   "nilai": [
+    65.84,
+    66.03,
+    66.92,
+    68.78,
+    69.55,
+    70.22,
+    71.33,
+    71.49,
+    71.72
+   ]
+  },
+  {
+   "id": "P1-IKU-04",
+   "prodi": "Prodi A",
+   "kode": "IKU-04",
+   "nama": "Publikasi terindeks per dosen (kumulatif)",
+   "bidang": "Penelitian",
+   "satuan": "artikel",
+   "target": 1.2,
+   "arah": "naik",
+   "nilai": [
+    0.14,
+    0.28,
+    0.42,
+    0.55,
+    0.69,
+    0.83,
+    0.97,
+    1.11,
+    1.25
+   ]
+  },
+  {
+   "id": "P1-IKU-05",
+   "prodi": "Prodi A",
+   "kode": "IKU-05",
+   "nama": "Kegiatan pengabdian dengan evidence dampak",
+   "bidang": "Pengabdian",
+   "satuan": "%",
+   "target": 80,
+   "arah": "naik",
+   "nilai": [
+    64.59,
+    65.81,
+    67.44,
+    68.13,
+    68.88,
+    68.96,
+    71.02,
+    71.42,
+    72.47
+   ]
+  },
+  {
+   "id": "P1-AMI-01",
+   "prodi": "Prodi A",
+   "kode": "AMI-01",
+   "nama": "Temuan AMI masih terbuka",
+   "bidang": "Tata Kelola",
+   "satuan": "temuan",
+   "target": 2,
+   "arah": "turun",
+   "nilai": [
+    5.81,
+    5.47,
+    4.95,
+    4.9,
+    4.76,
+    4.38,
+    4.03,
+    3.99,
+    3.31
+   ]
+  },
+  {
+   "id": "P2-IKU-01",
+   "prodi": "Prodi B",
+   "kode": "IKU-01",
+   "nama": "Kehadiran dosen dalam perkuliahan",
+   "bidang": "Akademik",
+   "satuan": "%",
+   "target": 90,
+   "arah": "naik",
+   "nilai": [
+    84.83,
+    85.1,
+    86.25,
+    86.45,
+    87.88,
+    88.79,
+    89.73,
+    91.99,
+    93.4
+   ]
+  },
+  {
+   "id": "P2-IKU-02",
+   "prodi": "Prodi B",
+   "kode": "IKU-02",
+   "nama": "Kepuasan mahasiswa terhadap pembelajaran",
+   "bidang": "Akademik",
+   "satuan": "skala 4",
+   "target": 3.5,
+   "arah": "naik",
+   "nilai": [
+    3.13,
+    3.16,
+    3.2,
+    3.22,
+    3.31,
+    3.34,
+    3.37,
+    3.41,
+    3.48
+   ]
+  },
+  {
+   "id": "P2-IKU-03",
+   "prodi": "Prodi B",
+   "kode": "IKU-03",
+   "nama": "Ketepatan waktu kelulusan",
+   "bidang": "Akademik",
+   "satuan": "%",
+   "target": 70,
+   "arah": "naik",
+   "nilai": [
+    69.89,
+    70.74,
+    71.74,
+    72.07,
+    73.6,
+    74.02,
+    74.83,
+    76.24,
+    76.45
+   ]
+  },
+  {
+   "id": "P2-IKU-04",
+   "prodi": "Prodi B",
+   "kode": "IKU-04",
+   "nama": "Publikasi terindeks per dosen (kumulatif)",
+   "bidang": "Penelitian",
+   "satuan": "artikel",
+   "target": 1.2,
+   "arah": "naik",
+   "nilai": [
+    0.14,
+    0.27,
+    0.41,
+    0.55,
+    0.69,
+    0.82,
+    0.96,
+    1.1,
+    1.23
+   ]
+  },
+  {
+   "id": "P2-IKU-05",
+   "prodi": "Prodi B",
+   "kode": "IKU-05",
+   "nama": "Kegiatan pengabdian dengan evidence dampak",
+   "bidang": "Pengabdian",
+   "satuan": "%",
+   "target": 80,
+   "arah": "naik",
+   "nilai": [
+    59.56,
+    61.51,
+    62.38,
+    63.12,
+    64.18,
+    65.09,
+    66.74,
+    66.64,
+    67.96
+   ]
+  },
+  {
+   "id": "P2-AMI-01",
+   "prodi": "Prodi B",
+   "kode": "AMI-01",
+   "nama": "Temuan AMI masih terbuka",
+   "bidang": "Tata Kelola",
+   "satuan": "temuan",
+   "target": 2,
+   "arah": "turun",
+   "nilai": [
+    6.03,
+    5.72,
+    5.28,
+    5.2,
+    4.86,
+    4.26,
+    4.33,
+    3.55,
+    3.61
+   ]
+  },
+  {
+   "id": "P3-IKU-01",
+   "prodi": "Prodi C",
+   "kode": "IKU-01",
+   "nama": "Kehadiran dosen dalam perkuliahan",
+   "bidang": "Akademik",
+   "satuan": "%",
+   "target": 90,
+   "arah": "naik",
+   "nilai": [
+    90.66,
+    91.63,
+    93.63,
+    94.71,
+    95.57,
+    95.99,
+    96.33,
+    97.77,
+    99.27
+   ]
+  },
+  {
+   "id": "P3-IKU-02",
+   "prodi": "Prodi C",
+   "kode": "IKU-02",
+   "nama": "Kepuasan mahasiswa terhadap pembelajaran",
+   "bidang": "Akademik",
+   "satuan": "skala 4",
+   "target": 3.5,
+   "arah": "naik",
+   "nilai": [
+    3.13,
+    3.15,
+    3.19,
+    3.2,
+    3.25,
+    3.33,
+    3.39,
+    3.38,
+    3.47
+   ]
+  },
+  {
+   "id": "P3-IKU-03",
+   "prodi": "Prodi C",
+   "kode": "IKU-03",
+   "nama": "Ketepatan waktu kelulusan",
+   "bidang": "Akademik",
+   "satuan": "%",
+   "target": 70,
+   "arah": "naik",
+   "nilai": [
+    59.64,
+    60.66,
+    61.79,
+    62.23,
+    63.02,
+    63.19,
+    64.25,
+    65.47,
+    66.57
+   ]
+  },
+  {
+   "id": "P3-IKU-04",
+   "prodi": "Prodi C",
+   "kode": "IKU-04",
+   "nama": "Publikasi terindeks per dosen (kumulatif)",
+   "bidang": "Penelitian",
+   "satuan": "artikel",
+   "target": 1.2,
+   "arah": "naik",
+   "nilai": [
+    0.15,
+    0.31,
+    0.46,
+    0.62,
+    0.77,
+    0.93,
+    1.08,
+    1.24,
+    1.39
+   ]
+  },
+  {
+   "id": "P3-IKU-05",
+   "prodi": "Prodi C",
+   "kode": "IKU-05",
+   "nama": "Kegiatan pengabdian dengan evidence dampak",
+   "bidang": "Pengabdian",
+   "satuan": "%",
+   "target": 80,
+   "arah": "naik",
+   "nilai": [
+    64.22,
+    64.25,
+    65.35,
+    66.89,
+    68.45,
+    69.27,
+    69.64,
+    69.93,
+    71.82
+   ]
+  },
+  {
+   "id": "P3-AMI-01",
+   "prodi": "Prodi C",
+   "kode": "AMI-01",
+   "nama": "Temuan AMI masih terbuka",
+   "bidang": "Tata Kelola",
+   "satuan": "temuan",
+   "target": 2,
+   "arah": "turun",
+   "nilai": [
+    6.27,
+    6.05,
+    5.38,
+    5.13,
+    5.07,
+    4.59,
+    4.09,
+    3.68,
+    3.43
+   ]
+  },
+  {
+   "id": "P4-IKU-01",
+   "prodi": "Prodi D",
+   "kode": "IKU-01",
+   "nama": "Kehadiran dosen dalam perkuliahan",
+   "bidang": "Akademik",
+   "satuan": "%",
+   "target": 90,
+   "arah": "naik",
+   "nilai": [
+    91.67,
+    93.28,
+    94.38,
+    96.21,
+    95.95,
+    97.9,
+    98.65,
+    99.69,
+    100.81
+   ]
+  },
+  {
+   "id": "P4-IKU-02",
+   "prodi": "Prodi D",
+   "kode": "IKU-02",
+   "nama": "Kepuasan mahasiswa terhadap pembelajaran",
+   "bidang": "Akademik",
+   "satuan": "skala 4",
+   "target": 3.5,
+   "arah": "naik",
+   "nilai": [
+    3.16,
+    3.18,
+    3.24,
+    3.23,
+    3.3,
+    3.34,
+    3.37,
+    3.43,
+    3.48
+   ]
+  },
+  {
+   "id": "P4-IKU-03",
+   "prodi": "Prodi D",
+   "kode": "IKU-03",
+   "nama": "Ketepatan waktu kelulusan",
+   "bidang": "Akademik",
+   "satuan": "%",
+   "target": 70,
+   "arah": "naik",
+   "nilai": [
+    56.83,
+    57.39,
+    59.24,
+    58.86,
+    60.4,
+    61.65,
+    61.95,
+    63.21,
+    63.26
+   ]
+  },
+  {
+   "id": "P4-IKU-04",
+   "prodi": "Prodi D",
+   "kode": "IKU-04",
+   "nama": "Publikasi terindeks per dosen (kumulatif)",
+   "bidang": "Penelitian",
+   "satuan": "artikel",
+   "target": 1.2,
+   "arah": "naik",
+   "nilai": [
+    0.15,
+    0.3,
+    0.44,
+    0.59,
+    0.74,
+    0.89,
+    1.04,
+    1.19,
+    1.33
+   ]
+  },
+  {
+   "id": "P4-IKU-05",
+   "prodi": "Prodi D",
+   "kode": "IKU-05",
+   "nama": "Kegiatan pengabdian dengan evidence dampak",
+   "bidang": "Pengabdian",
+   "satuan": "%",
+   "target": 80,
+   "arah": "naik",
+   "nilai": [
+    69.45,
+    71.05,
+    72.42,
+    72.95,
+    74.62,
+    74.3,
+    76.36,
+    76.59,
+    77.61
+   ]
+  },
+  {
+   "id": "P4-AMI-01",
+   "prodi": "Prodi D",
+   "kode": "AMI-01",
+   "nama": "Temuan AMI masih terbuka",
+   "bidang": "Tata Kelola",
+   "satuan": "temuan",
+   "target": 2,
+   "arah": "turun",
+   "nilai": [
+    5.52,
+    5.36,
+    5.1,
+    4.76,
+    4.61,
+    4.49,
+    3.99,
+    3.73,
+    3.36
+   ]
+  }
+ ],
+ "tindak_lanjut": [
+  {
+   "id": "TL-001",
+   "prodi": "Prodi A",
+   "sumber": "RTM",
+   "temuan": "Evidence dampak pengabdian belum lengkap",
+   "pic": "Koordinator Pengabdian",
+   "tenggat": "2026-06-20",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": true
+  },
+  {
+   "id": "TL-002",
+   "prodi": "Prodi A",
+   "sumber": "Evaluasi Perkuliahan",
+   "temuan": "Evaluasi pembelajaran belum selesai diinput",
+   "pic": "Ketua Prodi",
+   "tenggat": "2026-12-28",
+   "status": "Berjalan",
+   "progres": 70,
+   "evidence": true
+  },
+  {
+   "id": "TL-003",
+   "prodi": "Prodi A",
+   "sumber": "AMI",
+   "temuan": "Dokumen RPS belum seragam antar dosen",
+   "pic": "Wakil Dekan I",
+   "tenggat": "2026-12-10",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": true
+  },
+  {
+   "id": "TL-004",
+   "prodi": "Prodi A",
+   "sumber": "AMI",
+   "temuan": "Pemetaan luaran penelitian belum terintegrasi",
+   "pic": "Koordinator Penelitian",
+   "tenggat": "2026-10-10",
+   "status": "Berjalan",
+   "progres": 70,
+   "evidence": true
+  },
+  {
+   "id": "TL-005",
+   "prodi": "Prodi A",
+   "sumber": "RTM",
+   "temuan": "Tindak lanjut survei kepuasan belum terdokumentasi",
+   "pic": "Ketua GKM",
+   "tenggat": "2026-12-28",
+   "status": "Berjalan",
+   "progres": 55,
+   "evidence": false
+  },
+  {
+   "id": "TL-006",
+   "prodi": "Prodi A",
+   "sumber": "Evaluasi Perkuliahan",
+   "temuan": "Kehadiran dosen di bawah target pada beberapa mata kuliah",
+   "pic": "Ketua Prodi",
+   "tenggat": "2026-08-28",
+   "status": "Berjalan",
+   "progres": 56,
+   "evidence": false
+  },
+  {
+   "id": "TL-007",
+   "prodi": "Prodi A",
+   "sumber": "AMI",
+   "temuan": "Bukti rapat evaluasi kurikulum belum diarsipkan",
+   "pic": "Ketua GKM",
+   "tenggat": "2026-08-10",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": false
+  },
+  {
+   "id": "TL-008",
+   "prodi": "Prodi B",
+   "sumber": "AMI",
+   "temuan": "Bukti rapat evaluasi kurikulum belum diarsipkan",
+   "pic": "Ketua GKM",
+   "tenggat": "2026-10-10",
+   "status": "Berjalan",
+   "progres": 37,
+   "evidence": true
+  },
+  {
+   "id": "TL-009",
+   "prodi": "Prodi B",
+   "sumber": "AMI",
+   "temuan": "Dokumen RPS belum seragam antar dosen",
+   "pic": "Wakil Dekan I",
+   "tenggat": "2026-08-20",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": true
+  },
+  {
+   "id": "TL-010",
+   "prodi": "Prodi B",
+   "sumber": "Evaluasi Perkuliahan",
+   "temuan": "Kehadiran dosen di bawah target pada beberapa mata kuliah",
+   "pic": "Ketua Prodi",
+   "tenggat": "2026-12-20",
+   "status": "Berjalan",
+   "progres": 77,
+   "evidence": false
+  },
+  {
+   "id": "TL-011",
+   "prodi": "Prodi B",
+   "sumber": "AMI",
+   "temuan": "Pemetaan luaran penelitian belum terintegrasi",
+   "pic": "Koordinator Penelitian",
+   "tenggat": "2026-06-10",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": true
+  },
+  {
+   "id": "TL-012",
+   "prodi": "Prodi B",
+   "sumber": "RTM",
+   "temuan": "Evidence dampak pengabdian belum lengkap",
+   "pic": "Koordinator Pengabdian",
+   "tenggat": "2026-11-28",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": true
+  },
+  {
+   "id": "TL-013",
+   "prodi": "Prodi B",
+   "sumber": "RTM",
+   "temuan": "Tindak lanjut survei kepuasan belum terdokumentasi",
+   "pic": "Ketua GKM",
+   "tenggat": "2026-08-20",
+   "status": "Belum mulai",
+   "progres": 0,
+   "evidence": false
+  },
+  {
+   "id": "TL-014",
+   "prodi": "Prodi B",
+   "sumber": "Evaluasi Perkuliahan",
+   "temuan": "Evaluasi pembelajaran belum selesai diinput",
+   "pic": "Ketua Prodi",
+   "tenggat": "2026-11-28",
+   "status": "Berjalan",
+   "progres": 58,
+   "evidence": false
+  },
+  {
+   "id": "TL-015",
+   "prodi": "Prodi C",
+   "sumber": "AMI",
+   "temuan": "Dokumen RPS belum seragam antar dosen",
+   "pic": "Wakil Dekan I",
+   "tenggat": "2026-06-28",
+   "status": "Belum mulai",
+   "progres": 0,
+   "evidence": false
+  },
+  {
+   "id": "TL-016",
+   "prodi": "Prodi C",
+   "sumber": "RTM",
+   "temuan": "Evidence dampak pengabdian belum lengkap",
+   "pic": "Koordinator Pengabdian",
+   "tenggat": "2026-10-28",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": false
+  },
+  {
+   "id": "TL-017",
+   "prodi": "Prodi C",
+   "sumber": "AMI",
+   "temuan": "Pemetaan luaran penelitian belum terintegrasi",
+   "pic": "Koordinator Penelitian",
+   "tenggat": "2026-08-20",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": true
+  },
+  {
+   "id": "TL-018",
+   "prodi": "Prodi C",
+   "sumber": "AMI",
+   "temuan": "Bukti rapat evaluasi kurikulum belum diarsipkan",
+   "pic": "Ketua GKM",
+   "tenggat": "2026-06-20",
+   "status": "Berjalan",
+   "progres": 76,
+   "evidence": false
+  },
+  {
+   "id": "TL-019",
+   "prodi": "Prodi C",
+   "sumber": "RTM",
+   "temuan": "Tindak lanjut survei kepuasan belum terdokumentasi",
+   "pic": "Ketua GKM",
+   "tenggat": "2026-12-10",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": true
+  },
+  {
+   "id": "TL-020",
+   "prodi": "Prodi C",
+   "sumber": "Evaluasi Perkuliahan",
+   "temuan": "Kehadiran dosen di bawah target pada beberapa mata kuliah",
+   "pic": "Ketua Prodi",
+   "tenggat": "2026-06-28",
+   "status": "Berjalan",
+   "progres": 57,
+   "evidence": false
+  },
+  {
+   "id": "TL-021",
+   "prodi": "Prodi C",
+   "sumber": "Evaluasi Perkuliahan",
+   "temuan": "Evaluasi pembelajaran belum selesai diinput",
+   "pic": "Ketua Prodi",
+   "tenggat": "2026-06-28",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": false
+  },
+  {
+   "id": "TL-022",
+   "prodi": "Prodi D",
+   "sumber": "AMI",
+   "temuan": "Bukti rapat evaluasi kurikulum belum diarsipkan",
+   "pic": "Ketua GKM",
+   "tenggat": "2026-08-10",
+   "status": "Berjalan",
+   "progres": 61,
+   "evidence": false
+  },
+  {
+   "id": "TL-023",
+   "prodi": "Prodi D",
+   "sumber": "RTM",
+   "temuan": "Tindak lanjut survei kepuasan belum terdokumentasi",
+   "pic": "Ketua GKM",
+   "tenggat": "2026-09-20",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": true
+  },
+  {
+   "id": "TL-024",
+   "prodi": "Prodi D",
+   "sumber": "AMI",
+   "temuan": "Dokumen RPS belum seragam antar dosen",
+   "pic": "Wakil Dekan I",
+   "tenggat": "2026-07-10",
+   "status": "Berjalan",
+   "progres": 62,
+   "evidence": true
+  },
+  {
+   "id": "TL-025",
+   "prodi": "Prodi D",
+   "sumber": "Evaluasi Perkuliahan",
+   "temuan": "Kehadiran dosen di bawah target pada beberapa mata kuliah",
+   "pic": "Ketua Prodi",
+   "tenggat": "2026-11-28",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": true
+  },
+  {
+   "id": "TL-026",
+   "prodi": "Prodi D",
+   "sumber": "RTM",
+   "temuan": "Evidence dampak pengabdian belum lengkap",
+   "pic": "Koordinator Pengabdian",
+   "tenggat": "2026-08-10",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": true
+  },
+  {
+   "id": "TL-027",
+   "prodi": "Prodi D",
+   "sumber": "AMI",
+   "temuan": "Pemetaan luaran penelitian belum terintegrasi",
+   "pic": "Koordinator Penelitian",
+   "tenggat": "2026-10-20",
+   "status": "Selesai",
+   "progres": 100,
+   "evidence": true
+  },
+  {
+   "id": "TL-028",
+   "prodi": "Prodi D",
+   "sumber": "Evaluasi Perkuliahan",
+   "temuan": "Evaluasi pembelajaran belum selesai diinput",
+   "pic": "Ketua Prodi",
+   "tenggat": "2026-07-28",
+   "status": "Belum mulai",
+   "progres": 0,
+   "evidence": false
+  }
+ ],
+ "akreditasi": [
+  {
+   "prodi": "Prodi A",
+   "lembaga": "BAN-PT",
+   "peringkat_saat_ini": "Baik Sekali",
+   "peringkat_target": "Unggul",
+   "berlaku_sd": 2028,
+   "led_progres": 82,
+   "kriteria": [
+    {
+     "nama": "K1 Visi, Misi, Tujuan, Strategi",
+     "evidence_pct": 45
+    },
+    {
+     "nama": "K2 Tata Pamong, Tata Kelola, Kerja Sama",
+     "evidence_pct": 93
+    },
+    {
+     "nama": "K3 Mahasiswa",
+     "evidence_pct": 51
+    },
+    {
+     "nama": "K4 Sumber Daya Manusia",
+     "evidence_pct": 75
+    },
+    {
+     "nama": "K5 Keuangan, Sarana, Prasarana",
+     "evidence_pct": 42
+    },
+    {
+     "nama": "K6 Pendidikan",
+     "evidence_pct": 81
+    },
+    {
+     "nama": "K7 Penelitian",
+     "evidence_pct": 95
+    },
+    {
+     "nama": "K8 Pengabdian kepada Masyarakat",
+     "evidence_pct": 92
+    },
+    {
+     "nama": "K9 Luaran dan Capaian Tridharma",
+     "evidence_pct": 72
+    }
+   ]
+  },
+  {
+   "prodi": "Prodi B",
+   "lembaga": "BAN-PT",
+   "peringkat_saat_ini": "Baik",
+   "peringkat_target": "Baik Sekali",
+   "berlaku_sd": 2027,
+   "led_progres": 61,
+   "kriteria": [
+    {
+     "nama": "K1 Visi, Misi, Tujuan, Strategi",
+     "evidence_pct": 61
+    },
+    {
+     "nama": "K2 Tata Pamong, Tata Kelola, Kerja Sama",
+     "evidence_pct": 80
+    },
+    {
+     "nama": "K3 Mahasiswa",
+     "evidence_pct": 73
+    },
+    {
+     "nama": "K4 Sumber Daya Manusia",
+     "evidence_pct": 88
+    },
+    {
+     "nama": "K5 Keuangan, Sarana, Prasarana",
+     "evidence_pct": 87
+    },
+    {
+     "nama": "K6 Pendidikan",
+     "evidence_pct": 60
+    },
+    {
+     "nama": "K7 Penelitian",
+     "evidence_pct": 43
+    },
+    {
+     "nama": "K8 Pengabdian kepada Masyarakat",
+     "evidence_pct": 82
+    },
+    {
+     "nama": "K9 Luaran dan Capaian Tridharma",
+     "evidence_pct": 93
+    }
+   ]
+  },
+  {
+   "prodi": "Prodi C",
+   "lembaga": "LAM",
+   "peringkat_saat_ini": "Baik Sekali",
+   "peringkat_target": "Unggul",
+   "berlaku_sd": 2029,
+   "led_progres": 45,
+   "kriteria": [
+    {
+     "nama": "K1 Visi, Misi, Tujuan, Strategi",
+     "evidence_pct": 80
+    },
+    {
+     "nama": "K2 Tata Pamong, Tata Kelola, Kerja Sama",
+     "evidence_pct": 55
+    },
+    {
+     "nama": "K3 Mahasiswa",
+     "evidence_pct": 70
+    },
+    {
+     "nama": "K4 Sumber Daya Manusia",
+     "evidence_pct": 43
+    },
+    {
+     "nama": "K5 Keuangan, Sarana, Prasarana",
+     "evidence_pct": 54
+    },
+    {
+     "nama": "K6 Pendidikan",
+     "evidence_pct": 83
+    },
+    {
+     "nama": "K7 Penelitian",
+     "evidence_pct": 72
+    },
+    {
+     "nama": "K8 Pengabdian kepada Masyarakat",
+     "evidence_pct": 95
+    },
+    {
+     "nama": "K9 Luaran dan Capaian Tridharma",
+     "evidence_pct": 49
+    }
+   ]
+  },
+  {
+   "prodi": "Prodi D",
+   "lembaga": "BAN-PT",
+   "peringkat_saat_ini": "Unggul",
+   "peringkat_target": "Unggul",
+   "berlaku_sd": 2030,
+   "led_progres": 92,
+   "kriteria": [
+    {
+     "nama": "K1 Visi, Misi, Tujuan, Strategi",
+     "evidence_pct": 97
+    },
+    {
+     "nama": "K2 Tata Pamong, Tata Kelola, Kerja Sama",
+     "evidence_pct": 95
+    },
+    {
+     "nama": "K3 Mahasiswa",
+     "evidence_pct": 65
+    },
+    {
+     "nama": "K4 Sumber Daya Manusia",
+     "evidence_pct": 85
+    },
+    {
+     "nama": "K5 Keuangan, Sarana, Prasarana",
+     "evidence_pct": 63
+    },
+    {
+     "nama": "K6 Pendidikan",
+     "evidence_pct": 90
+    },
+    {
+     "nama": "K7 Penelitian",
+     "evidence_pct": 54
+    },
+    {
+     "nama": "K8 Pengabdian kepada Masyarakat",
+     "evidence_pct": 75
+    },
+    {
+     "nama": "K9 Luaran dan Capaian Tridharma",
+     "evidence_pct": 93
+    }
+   ]
+  }
+ ]
+}
