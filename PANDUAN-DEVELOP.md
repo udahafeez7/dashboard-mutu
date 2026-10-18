@@ -190,6 +190,13 @@ Buka tab **Actions** di repositori GitHub. Workflow *Deploy Portal Mutu* berjala
   - Loader dipanggil lewat `UI.loader.tampil(judul, pesan)`, `UI.loader.pesan(teks)`, `UI.loader.sukses(judul, pesan)`, `UI.loader.sembunyi(minimalMs)`. Toast lewat `UI.toast(teks, "sukses"|"info"|"peringatan"|"galat")`.
   - Halaman terlindungi memakai `<body data-loader="Judul loader">` serta memuat `auth.js` dan `ui.js` di awal `<body>`, supaya loader muncul sebelum isi halaman terlihat. Panggil `UI.jagaSesi()` untuk peringatan sesi hampir habis.
   - Pengguna yang mengaktifkan *reduce motion* di sistem operasinya otomatis mendapat versi tanpa animasi.
+- **Tabel data** (`table()` di `assets/dashboard.js`, gaya `.tbl` di `dashboard.html`). Definisi kolom: `{key, label, w, num, lengket, cell, val, teks, judul}`.
+  - `num: true`: rata kanan dengan digit tabular. Pakai `num(nilai, desimal)` agar koma desimal sejajar.
+  - `lengket: true`: kolom identitas tetap di kiri saat tabel digulir; header selalu lengket di atas.
+  - Sel tidak pernah membungkus. Teks panjang terpotong dengan ellipsis dan teks lengkapnya muncul di tooltip (`teks(r)`) serta di jendela Detail.
+  - Sel kosong wajib menjelaskan alasannya lewat `kosong(teks, alasan)`, bukan sekadar "–".
+  - Aksi baris (`opts.aksi`) muncul saat baris di-hover atau difokus keyboard; di layar sentuh selalu tampil.
+  - Kepadatan baris (Ringkas 34px / Standar 44px / Lega 56px) disimpan di `localStorage` per perangkat.
 - **Dashboard & Bootstrap**: `dashboard.html` memiliki kelas `.card` dan `.badge` sendiri. Gaya Bootstrap yang bentrok dinetralkan di blok `<style>` dashboard (cari komentar "netralkan gaya Bootstrap").
 - **Data contoh**: `python gen_data.py` menulis ulang `sumber/mutu.json` dengan data contoh. Jangan jalankan bila data asli sudah diisi.
 - **Peringatan "LF will be replaced by CRLF"** di Windows tidak berbahaya dan boleh diabaikan.

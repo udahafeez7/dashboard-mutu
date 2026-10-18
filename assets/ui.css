@@ -89,6 +89,12 @@
 .pbar button.keluar{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--sv-700);border:1px solid var(--sv-300);border-radius:8px;padding:5px 12px;font:inherit;font-size:12.5px}
 .pbar button.keluar:hover{background:#fbe9ea;color:#a3212a;border-color:#efc2c5}
 
+@media (max-width:640px){
+  .pbar{padding:8px 14px}
+  .pbar-l>b,.pbar .who{display:none}
+  .pbar img.pbar-logo{height:26px}
+}
+
 /* ---------- latar logo FTI di dalam portal ---------- */
 .latar-fti{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
   background:radial-gradient(circle,rgba(75,84,118,.09) 1.2px,transparent 1.5px) 0 0/18px 18px}

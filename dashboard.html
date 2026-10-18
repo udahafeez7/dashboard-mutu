@@ -64,19 +64,72 @@ nav#tabs button{border:0;background:transparent;color:var(--muted);padding:8px 1
 nav#tabs button:hover{background:#f1f3f6;color:var(--ink)}
 nav#tabs button i{margin-right:6px;pointer-events:none}
 nav#tabs button[aria-selected=true]{background:linear-gradient(145deg,#5b6488,#2f3650);color:#fff;box-shadow:0 4px 10px rgba(47,54,80,.3)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:var(--gap);margin-bottom:var(--gap)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:var(--gap);margin-bottom:var(--gap)}
 .card{background:var(--card);border-radius:var(--r);padding:20px 22px;box-shadow:var(--sh-2);border:1px solid #edf0f4;overflow-x:auto;margin-bottom:var(--gap)}
 .grid .card{margin-bottom:0}
 .card h3{margin:0 0 4px;font-size:15px;color:var(--ink)}
 .card .hint{margin:0 0 12px;font-size:12px;color:var(--muted)}
 .card canvas{max-height:300px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;padding:8px 10px;border-bottom:2px solid var(--line);font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);cursor:pointer;white-space:nowrap;user-select:none}
-th:hover{color:var(--ink)}
-td{padding:8px 10px;border-bottom:1px solid #f1f5f9;vertical-align:top}
-tr.sel td{background:#eef0f7}
-tbody tr:hover td{background:#f8fafc}
-tbody tr.clickable{cursor:pointer}
+/* ---------- tabel data ----------
+   Aturan: angka rata kanan + digit tabular (desimal sejajar), teks rata kiri; satu garis tipis
+   per baris tanpa zebra, hover yang menandai; tinggi baris dipilih (densitas); kolom identitas
+   dan header lengket; sel tidak pernah membungkus (ellipsis + tooltip); aksi muncul saat hover/fokus. */
+.tbl-alat{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 10px}
+.tbl-jumlah{font-size:12.5px;color:var(--muted)}
+.tbl-jumlah b{color:var(--ink);font-variant-numeric:tabular-nums}
+.densitas{display:inline-flex;padding:3px;border-radius:10px;background:#f1f3f6;border:1px solid #e6e9ee}
+.densitas button{border:0;background:transparent;color:var(--muted);font-size:12px;font-weight:600;padding:4px 10px;border-radius:7px;display:inline-flex;align-items:center;gap:6px}
+.densitas button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:var(--sh-1)}
+.densitas button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.tbl-wrap{--row-h:44px;--row-bg:#fff;--row-hover:#f3f5f9;--row-sel:#eceff7;--garis:#e8ebf0;
+  position:relative;overflow:auto;max-height:min(70vh,640px);border:1px solid var(--garis);border-radius:12px;background:#fff;overscroll-behavior-x:contain}
+.tbl-wrap:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tbl-wrap[data-densitas=ringkas]{--row-h:34px}
+.tbl-wrap[data-densitas=lega]{--row-h:56px}
+.tbl{min-width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;font-size:13px}
+.tbl-wrap[data-densitas=ringkas] .tbl{font-size:12.5px}
+.tbl th,.tbl td{height:var(--row-h);padding:0 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:middle;text-align:left;background:var(--row-bg)}
+.tbl td{border-bottom:1px solid var(--garis)}
+.tbl tbody tr:last-child td{border-bottom:0}
+.tbl thead th{position:sticky;top:0;z-index:2;height:40px;background:#f7f8fa;border-bottom:1px solid #d9dde4;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--muted)}
+.tbl th button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:4px;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.tbl th button:hover{color:var(--ink)}
+.tbl th button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.tbl th .bi{font-size:10px;opacity:.35}
+.tbl th[aria-sort] .bi{opacity:1;color:var(--ink)}
+.tbl .num{text-align:right;font-variant-numeric:tabular-nums}
+.tbl th.num button{flex-direction:row-reverse}
+.tbl .n{display:inline-flex;justify-content:flex-end}
+.tbl .n .f{display:inline-block;width:3ch;text-align:left}
+.tbl tbody tr:hover td{background:var(--row-hover)}
+.tbl tbody tr.sel td{background:var(--row-sel)}
+.tbl tbody tr.sel td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+.tbl tbody tr.klik{cursor:pointer}
+.tbl .lengket{position:sticky;z-index:1}
+.tbl thead .lengket{z-index:3}
+.tbl .lengket-akhir{border-right:1px solid var(--garis)}
+.tbl-wrap.tergulir .lengket-akhir{box-shadow:6px 0 10px -6px rgba(31,38,51,.22)}
+.tbl .aksi{position:sticky;right:0;z-index:1;text-align:right;overflow:visible;padding:0 8px}
+.tbl thead .aksi{z-index:3}
+.tbl-wrap.bisa-kanan .aksi{box-shadow:-6px 0 10px -6px rgba(31,38,51,.18)}
+.aksi-isi{display:inline-flex;gap:2px;opacity:0;transform:translateX(4px);transition:opacity .15s ease,transform .15s ease}
+.tbl tbody tr:hover .aksi-isi,.tbl tbody tr:focus-within .aksi-isi{opacity:1;transform:none}
+@media (hover:none),(pointer:coarse){.aksi-isi{opacity:1;transform:none}}
+@media (max-width:640px){.tbl .aksi{position:static}.tbl-wrap.bisa-kanan .aksi{box-shadow:none}}
+.aksi-isi button{border:0;background:transparent;width:30px;height:30px;border-radius:8px;color:var(--muted);display:inline-grid;place-items:center;font-size:15px}
+.aksi-isi button:hover{background:#e3e7ef;color:var(--ink)}
+.aksi-isi button:focus-visible{outline:2px solid var(--accent);outline-offset:0;opacity:1}
+.kosong{color:#8a92a3;font-style:italic;font-size:12px}
+.kosong .bi{font-style:normal;margin-right:4px}
+.tbl .kode{font-weight:700;color:var(--ink)}
+.tbl .redup{color:var(--muted)}
+.tbl .negatif{color:var(--bad);font-weight:600}
+.prog{display:inline-flex;align-items:center;gap:8px}
+.prog .bar{width:56px;margin:0;height:6px}
+.dl-detail{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;margin:0;font-size:13.5px}
+.dl-detail dt{color:var(--muted);font-weight:600}
+.dl-detail dd{margin:0;color:var(--ink)}
+.dl-detail dd.num{font-variant-numeric:tabular-nums}
 .badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;white-space:nowrap}
 .b-ok{background:#dcfce7;color:var(--ok)}.b-warn{background:#fef3c7;color:var(--warn)}
 .b-bad{background:#fee2e2;color:var(--bad)}.b-neutral{background:#e2e8f0;color:var(--neutral)}
@@ -84,7 +137,7 @@ tbody tr.clickable{cursor:pointer}
 .bar>i{display:block;height:100%;background:var(--accent)}
 .prodi-card h4{margin:0 0 2px;font-size:15px}
 .prodi-card .m{color:var(--muted);font-size:12px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--gap);margin-bottom:var(--gap)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:var(--gap);margin-bottom:var(--gap)}
 .cards .card{margin-bottom:0}
 .callout{border-left:4px solid var(--warn);background:#fffbeb;padding:10px 14px;border-radius:6px;margin-top:10px;font-size:13px}
 .callout.bad{border-left-color:var(--bad);background:#fef2f2}
@@ -156,6 +209,19 @@ h1,h2,h3,h4{font-weight:700;line-height:1.35}
 </section>
 </main>
 <footer id="foot"></footer>
+
+<!-- Detail baris tabel (aksi "Detail") -->
+<div class="modal fade modal-silver" id="m-detail" tabindex="-1" aria-labelledby="md-judul" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5 fw-bold" id="md-judul"></h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body"><dl class="dl-detail" id="md-isi"></dl></div>
+    </div>
+  </div>
+</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="assets/dashboard.js"></script>
