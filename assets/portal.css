@@ -1,0 +1,51 @@
+:root{--p-head:#14532d;--p-accent:#15803d;--p-ink:#1e293b;--p-muted:#64748b;--p-line:#e2e8f0;--p-bg:#f3f6f3;--p-r:10px}
+.pbar{background:#0f3d22;color:#fff;display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between;align-items:center;padding:8px 20px;font:13px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.pbar-l,.pbar-r{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.pbar b{font-size:14px;margin-right:6px}
+.pbar a{color:#bbf7d0;text-decoration:none;padding:2px 0;border-bottom:2px solid transparent}
+.pbar a:hover{color:#fff}
+.pbar a[aria-current=page]{color:#fff;border-bottom-color:#4ade80}
+.pbar span{color:#d1fae5}
+.pbar button{background:#ffffff1a;color:#fff;border:1px solid #ffffff40;border-radius:6px;padding:4px 12px;font:inherit;cursor:pointer}
+.pbar button:hover{background:#ffffff33}
+
+/* halaman login */
+.login-body{margin:0;min-height:100vh;display:grid;place-items:center;background:linear-gradient(160deg,#14532d,#166534 45%,#f3f6f3 45.1%);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--p-ink);padding:24px 16px;box-sizing:border-box}
+.login-card{background:#fff;border-radius:14px;box-shadow:0 10px 30px #0000002e;padding:28px 28px 22px;width:100%;max-width:380px;box-sizing:border-box}
+.login-card h1{font-size:19px;margin:0}
+.login-card .sub{color:var(--p-muted);font-size:12.5px;margin:2px 0 20px}
+.login-card label{display:block;font-size:12px;font-weight:600;color:#334155;margin:12px 0 4px}
+.login-card input{width:100%;box-sizing:border-box;padding:9px 11px;border:1px solid #cbd5e1;border-radius:8px;font:inherit}
+.login-card input:focus{outline:2px solid #86efac;border-color:var(--p-accent)}
+.login-card button{margin-top:18px;width:100%;padding:10px;border:0;border-radius:8px;background:var(--p-accent);color:#fff;font:600 14px system-ui,sans-serif;cursor:pointer}
+.login-card button:disabled{opacity:.6;cursor:wait}
+.login-msg{margin-top:12px;font-size:13px;border-radius:8px;padding:8px 11px}
+.login-msg.err{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+.login-msg.info{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+.login-foot{margin-top:18px;font-size:11.5px;color:var(--p-muted);border-top:1px solid var(--p-line);padding-top:12px}
+
+/* beranda portal */
+.portal-body{margin:0;background:var(--p-bg);color:var(--p-ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.portal{max-width:1100px;margin:0 auto;padding:20px}
+.hero{background:var(--p-head);color:#fff;border-radius:var(--p-r);padding:22px 24px}
+.hero h1{margin:0;font-size:20px}
+.hero p{margin:4px 0 0;color:#bbf7d0;font-size:13px}
+.modul{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:16px 0}
+.modul a,.modul .m{display:block;background:#fff;border-radius:var(--p-r);padding:18px 20px;box-shadow:0 1px 3px #0000001a;color:inherit;text-decoration:none;border-top:4px solid var(--p-accent)}
+.modul a:hover{box-shadow:0 4px 14px #0000001f}
+.modul h3{margin:0 0 4px;font-size:15px}
+.modul p{margin:0;color:var(--p-muted);font-size:13px}
+.modul .m{border-top-color:#94a3b8}
+.ringkas{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:12px}
+.ringkas div{background:#ffffff17;border:1px solid #ffffff26;border-radius:8px;padding:10px 12px}
+.ringkas small{display:block;color:#bbf7d0;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+.ringkas b{font-size:20px;color:#fff}
+.panel{background:#fff;border-radius:var(--p-r);padding:18px 20px;box-shadow:0 1px 3px #0000001a;margin-bottom:16px;overflow-x:auto}
+.panel h2{font-size:15px;margin:0 0 4px}
+.panel .hint{margin:0 0 10px;color:var(--p-muted);font-size:12.5px}
+.panel table{width:100%;border-collapse:collapse;font-size:13px}
+.panel th{text-align:left;padding:7px 10px;border-bottom:2px solid var(--p-line);font-size:11px;text-transform:uppercase;color:var(--p-muted)}
+.panel td{padding:7px 10px;border-bottom:1px solid #f1f5f9}
+.panel code{background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:12px}
+.panel pre{background:#0f172a;color:#e2e8f0;padding:10px 12px;border-radius:8px;font-size:12px;overflow-x:auto}
+.portal footer{color:var(--p-muted);font-size:12px;text-align:center;padding:10px 0}

@@ -1,0 +1,6 @@
+# Data mentah TIDAK boleh di-commit: yang dipublikasikan hanya versi terenkripsi (data/mutu.enc.json)
+sumber/
+/mutu.json
+data/mutu.json
+*.tmp
+__pycache__/
