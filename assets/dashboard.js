@@ -153,7 +153,10 @@ let mDetail = null;
 function detail(judul, pasangan){
   document.getElementById("md-judul").textContent = judul;
   document.getElementById("md-isi").replaceChildren(...pasangan.flatMap(([k, v, isNum]) => [h("dt", null, k), h("dd", isNum ? {class:"num"} : null, v == null || v === "" ? "–" : v)]));
-  (mDetail || (mDetail = new bootstrap.Modal(document.getElementById("m-detail")))).show();
+  // Kembalikan fokus ke tombol asal setelah ditutup (Escape, X, atau klik luar).
+  const asal = document.activeElement, el = document.getElementById("m-detail");
+  el.addEventListener("hidden.bs.modal", () => { if (asal && asal.isConnected) asal.focus(); }, {once:true});
+  (mDetail || (mDetail = new bootstrap.Modal(el))).show();
 }
 async function salin(teks, apa){
   try { await navigator.clipboard.writeText(teks); UI.toast(apa + " disalin ke clipboard.", "sukses", {lama:2500}); }

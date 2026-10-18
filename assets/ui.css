@@ -102,7 +102,23 @@
 .latar-fti img{position:absolute;left:50%;top:62%;width:min(980px,92vw);transform:translate(-50%,-50%);opacity:.075;filter:grayscale(.2)}
 
 /* ---------- modal & toast bertema silver ---------- */
-.modal-silver .modal-content{border:1px solid rgba(255,255,255,.9);border-radius:18px;background:var(--sv-metal);box-shadow:0 24px 60px rgba(31,38,51,.25)}
+/* Lapisan gelap yang ringan: konteks halaman tetap terlihat samar. */
+.modal-backdrop{--bs-backdrop-bg:#1f2633;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.modal-backdrop.show{opacity:.32}
+/* Modal silver: isi terang, cincin silver berkilau yang berputar, dan pendar lembut di tepi. */
+@property --sv-sudut{syntax:"<angle>";inherits:false;initial-value:0deg}
+.modal-silver .modal-content{position:relative;border:2px solid transparent;border-radius:18px;color:var(--sv-ink);
+  /* Lapisan 1: isi terang (padding-box). Lapisan 2: cincin silver berputar (border-box), tetap tampil
+     walau Bootstrap memberi overflow:hidden pada .modal-dialog-scrollable. */
+  background:linear-gradient(180deg,#ffffff 0%,#f5f6f9 100%) padding-box,
+    conic-gradient(from var(--sv-sudut),#ffffff 0deg,#9aa3b5 55deg,#e4e8ee 110deg,#6f7891 190deg,#c9cfd9 250deg,#ffffff 310deg,#ffffff 360deg) border-box;
+  box-shadow:0 0 18px 3px rgba(232,236,243,.85),0 0 46px 10px rgba(205,212,225,.45),0 28px 60px rgba(15,18,30,.28);
+  animation:svPutar 6s linear infinite,svPendar 3.4s ease-in-out infinite}
+@keyframes svPutar{to{--sv-sudut:360deg}}
+@keyframes svPendar{
+  0%,100%{box-shadow:0 0 16px 2px rgba(232,236,243,.75),0 0 40px 8px rgba(205,212,225,.38),0 28px 60px rgba(15,18,30,.28)}
+  50%{box-shadow:0 0 24px 5px rgba(240,243,248,.95),0 0 64px 14px rgba(214,220,232,.55),0 28px 60px rgba(15,18,30,.28)}}
+@media (prefers-reduced-motion:reduce){.modal-silver .modal-content{animation:none}}
 .modal-silver .modal-header,.modal-silver .modal-footer{border-color:rgba(75,84,102,.15)}
 .modal-silver .ikon{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;background:#fff;color:var(--sv-700);font-size:22px;box-shadow:0 4px 12px rgba(31,38,51,.12)}
 .modal-silver .info{background:rgba(255,255,255,.65);border-radius:10px;padding:8px 12px;font-size:12.5px;color:var(--sv-700)}

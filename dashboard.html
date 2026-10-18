@@ -209,8 +209,10 @@ h1,h2,h3,h4{font-weight:700;line-height:1.35}
 </section>
 </main>
 <footer id="foot"></footer>
+</div>
 
-<!-- Detail baris tabel (aksi "Detail") -->
+<!-- Detail baris tabel (aksi "Detail"). Harus berada langsung di <body>, di luar .wrap:
+     .wrap membentuk stacking context (z-index:1) yang akan mengurung modal di bawah backdrop. -->
 <div class="modal fade modal-silver" id="m-detail" tabindex="-1" aria-labelledby="md-judul" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
     <div class="modal-content">
@@ -221,7 +223,6 @@ h1,h2,h3,h4{font-weight:700;line-height:1.35}
       <div class="modal-body"><dl class="dl-detail" id="md-isi"></dl></div>
     </div>
   </div>
-</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="assets/dashboard.js"></script>
