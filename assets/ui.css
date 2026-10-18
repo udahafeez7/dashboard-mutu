@@ -1,0 +1,122 @@
+/* Portal Mutu FTI: tema silver, splash logo, loader, dan halaman login (di atas Bootstrap 5). */
+:root{
+  --sv-50:#fbfcfd;--sv-100:#f1f3f6;--sv-200:#e2e6eb;--sv-300:#cdd3db;--sv-400:#aab2be;
+  --sv-500:#858fa0;--sv-600:#68718a;--sv-700:#4b5466;--sv-800:#323949;--sv-ink:#1f2633;
+  --sv-metal:linear-gradient(135deg,#fdfdfe 0%,#e8ebef 30%,#cfd4dc 55%,#eef0f3 78%,#d9dde3 100%);
+  --sv-btn:linear-gradient(180deg,#8d96aa 0%,#68718a 55%,#59627a 100%);
+}
+
+/* ---------- logo FTI yang dirakit dari 3 bagian ---------- */
+.pm-logo{position:relative;width:min(360px,78vw);aspect-ratio:333/133;margin:0 auto}
+.pm-logo img{position:absolute;top:0;height:100%;user-select:none;-webkit-user-drag:none}
+.pm-logo .l-unand{left:0;width:33.93%}
+.pm-logo .l-mark{left:34.53%;width:31.23%}
+.pm-logo .l-teks{left:66.97%;width:33.03%}
+.pm-logo .l-kilau{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.0) 38%,rgba(255,255,255,.95) 50%,rgba(255,255,255,0) 62%,transparent 70%) no-repeat;
+  background-size:250% 100%;background-position:150% 0;
+  -webkit-mask:url("img/logo-fti.png") center/100% 100% no-repeat;mask:url("img/logo-fti.png") center/100% 100% no-repeat}
+.pm-logo.main .l-unand{animation:lgUnand .95s cubic-bezier(.2,.9,.25,1.15) both}
+.pm-logo.main .l-mark{animation:lgMark .8s cubic-bezier(.2,.8,.2,1) .35s both}
+.pm-logo.main .l-teks{animation:lgTeks .7s cubic-bezier(.2,.8,.2,1) .7s both}
+.pm-logo.main .l-kilau{animation:lgKilau 2.4s ease-in-out 1.25s infinite}
+.pm-logo.kilau-saja .l-kilau{animation:lgKilau 1.8s ease-in-out .2s infinite}
+@keyframes lgUnand{from{opacity:0;transform:rotate(-120deg) scale(.55)}to{opacity:1;transform:none}}
+@keyframes lgMark{from{opacity:0;transform:translateY(22%);clip-path:inset(100% 0 0 0)}to{opacity:1;transform:none;clip-path:inset(0)}}
+@keyframes lgTeks{from{opacity:0;transform:translateX(-14%);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+@keyframes lgKilau{0%{background-position:150% 0}55%,100%{background-position:-60% 0}}
+
+/* ---------- splash awal ---------- */
+.splash{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;background:var(--sv-metal);overflow:hidden;transition:opacity .55s ease,transform .55s ease}
+.splash::before{content:"";position:absolute;inset:-50%;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.55) 50%,transparent 58%);animation:bgSapu 3.2s ease-in-out infinite}
+.splash::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 2px,rgba(0,0,0,.015) 2px 4px);pointer-events:none}
+.splash.keluar{opacity:0;transform:scale(1.04);pointer-events:none}
+.splash-inner{position:relative;z-index:1;text-align:center;width:min(420px,88vw)}
+.splash-halo{position:absolute;left:50%;top:38%;width:130%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.95) 0%,rgba(255,255,255,.35) 38%,transparent 66%);animation:halo 2.6s ease-in-out infinite;z-index:-1}
+.splash .pm-logo{filter:drop-shadow(0 6px 14px rgba(50,57,73,.18))}
+.splash-bar{height:4px;margin:34px auto 0;width:72%;background:rgba(75,84,102,.15);border-radius:99px;overflow:hidden}
+.splash-bar>i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#9aa3b5,#5f687e,#c3c9d3);background-size:200% 100%;animation:barKilau 1.2s linear infinite;transition:width .45s ease}
+.splash-bar.gagal>i{background:#b4232c}
+.splash-status{margin-top:12px;font-size:12.5px;letter-spacing:.3px;color:var(--sv-700);min-height:1.5em}
+.splash-ver{position:absolute;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sv-500);z-index:1}
+@keyframes bgSapu{0%{transform:translateX(-35%)}100%{transform:translateX(35%)}}
+@keyframes halo{0%,100%{opacity:.75;transform:translate(-50%,-50%) scale(.94)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.04)}}
+@keyframes barKilau{to{background-position:-200% 0}}
+
+/* ---------- overlay loader (login sukses, dekripsi data, logout) ---------- */
+.pm-loader{position:fixed;inset:0;z-index:1990;display:grid;place-items:center;background:rgba(236,239,243,.86);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .3s ease}
+.pm-loader.tampil{opacity:1}
+.pm-loader-card{text-align:center;width:min(380px,86vw);padding:28px 26px 24px;border-radius:18px;background:var(--sv-metal);
+  box-shadow:0 18px 50px rgba(31,38,51,.18),inset 0 1px 0 #fff;border:1px solid rgba(255,255,255,.8);transform:translateY(8px) scale(.98);transition:transform .35s cubic-bezier(.2,.9,.3,1.2)}
+.pm-loader.tampil .pm-loader-card{transform:none}
+.pm-loader .pm-logo{width:min(250px,64vw)}
+.pm-loader-judul{margin-top:18px;font-weight:600;color:var(--sv-ink);font-size:15px}
+.pm-loader-pesan{margin-top:4px;font-size:12.5px;color:var(--sv-600);min-height:1.4em}
+.pm-loader .splash-bar{margin-top:16px;width:100%}
+.pm-loader .splash-bar.indet>i{width:40%!important;animation:barKilau 1.2s linear infinite,indet 1.15s ease-in-out infinite}
+@keyframes indet{0%{transform:translateX(-110%)}100%{transform:translateX(260%)}}
+.pm-cek{display:inline-grid;place-items:center;width:44px;height:44px;margin-top:16px;border-radius:50%;background:#e7f6ec;color:#16803c;font-size:24px;animation:pop .45s cubic-bezier(.2,.9,.3,1.4) both}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+
+/* ---------- halaman login ---------- */
+.login-page{min-height:100vh;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:28px 16px;
+  background:var(--sv-metal);color:var(--sv-ink);position:relative;overflow-x:hidden}
+.login-page::before{content:"";position:fixed;inset:0;background:url("img/logo-unand.png") right -90px bottom -70px/420px auto no-repeat;opacity:.07;pointer-events:none}
+.login-page::after{content:"";position:fixed;inset:-50%;background:linear-gradient(115deg,transparent 45%,rgba(255,255,255,.4) 50%,transparent 55%);animation:bgSapu 9s ease-in-out infinite alternate;pointer-events:none}
+.login-card{position:relative;z-index:1;width:100%;max-width:410px;border:1px solid rgba(255,255,255,.85);border-radius:20px;
+  background:linear-gradient(180deg,rgba(255,255,255,.93),rgba(246,247,249,.9));box-shadow:0 22px 60px rgba(31,38,51,.16),inset 0 1px 0 #fff}
+.login-card .card-body{padding:30px 30px 24px}
+.login-card .pm-logo{width:min(250px,70vw);margin-bottom:18px}
+.login-card h1{font-size:18px;font-weight:700;margin:0;color:var(--sv-ink)}
+.login-card .sub{font-size:12.5px;color:var(--sv-600);margin:2px 0 22px}
+.login-card .form-floating>label i{margin-right:4px;color:var(--sv-500)}
+.login-card .form-control{border-color:var(--sv-300);background:rgba(255,255,255,.9)}
+.login-card .form-control:focus{border-color:var(--sv-600);box-shadow:0 0 0 .2rem rgba(104,113,138,.2)}
+.login-card .input-group .btn{border-color:var(--sv-300);color:var(--sv-600);background:#fff}
+.login-card .input-group .btn:hover{background:var(--sv-100)}
+.login-card .form-check-input:checked{background-color:var(--sv-600);border-color:var(--sv-600)}
+.btn-silver{position:relative;overflow:hidden;color:#fff;background:var(--sv-btn);border:1px solid #556076;font-weight:600;letter-spacing:.3px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 6px 16px rgba(89,98,122,.28)}
+.btn-silver:hover,.btn-silver:focus-visible{color:#fff;background:linear-gradient(180deg,#99a2b6,#6f7892 55%,#5f6881)}
+.btn-silver:active{transform:translateY(1px)}
+.btn-silver:disabled{color:#fff;opacity:.85}
+.btn-silver::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.45),transparent);transition:left .6s ease}
+.btn-silver:hover::after{left:120%}
+.tahap{margin:10px 0 0;padding:0;list-style:none;font-size:12.5px;color:var(--sv-500)}
+.tahap li{display:flex;align-items:center;gap:8px;padding:2px 0;transition:color .2s}
+.tahap li i{width:16px;text-align:center}
+.tahap li.aktif{color:var(--sv-ink)}
+.tahap li.selesai{color:#16803c}
+.login-alert{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin:14px 0 0;padding:9px 12px}
+.input-group .form-floating.is-invalid~.invalid-feedback{display:block}
+.caps{font-size:12px;color:#9a5b00;margin-top:6px}
+.login-foot{font-size:11.5px;color:var(--sv-600);border-top:1px solid var(--sv-200);margin:20px 0 0;padding-top:12px;display:flex;gap:8px}
+.login-copy{position:relative;z-index:1;font-size:11.5px;color:var(--sv-600)}
+
+/* ---------- bilah portal (silver) ---------- */
+.pbar{background:linear-gradient(180deg,#fdfdfe,#e6e9ee);color:var(--sv-ink);border-bottom:1px solid var(--sv-300);box-shadow:0 1px 6px rgba(31,38,51,.08);
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:1030}
+.pbar img.pbar-logo{height:30px;width:auto;margin-right:8px}
+.pbar a{color:var(--sv-700)}
+.pbar a:hover{color:var(--sv-ink)}
+.pbar a[aria-current=page]{color:var(--sv-ink);border-bottom-color:var(--sv-600)}
+.pbar .avatar{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--sv-btn);color:#fff;font-size:12px;font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.pbar .who{display:flex;flex-direction:column;line-height:1.15}
+.pbar .who b{font-size:13px;margin:0}
+.pbar .who small{font-size:11px;color:var(--sv-600)}
+.pbar button.keluar{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--sv-700);border:1px solid var(--sv-300);border-radius:8px;padding:5px 12px;font:inherit;font-size:12.5px}
+.pbar button.keluar:hover{background:#fbe9ea;color:#a3212a;border-color:#efc2c5}
+
+/* ---------- modal & toast bertema silver ---------- */
+.modal-silver .modal-content{border:1px solid rgba(255,255,255,.9);border-radius:18px;background:var(--sv-metal);box-shadow:0 24px 60px rgba(31,38,51,.25)}
+.modal-silver .modal-header,.modal-silver .modal-footer{border-color:rgba(75,84,102,.15)}
+.modal-silver .ikon{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;background:#fff;color:var(--sv-700);font-size:22px;box-shadow:0 4px 12px rgba(31,38,51,.12)}
+.modal-silver .info{background:rgba(255,255,255,.65);border-radius:10px;padding:8px 12px;font-size:12.5px;color:var(--sv-700)}
+.toast-silver{background:rgba(255,255,255,.96);border:1px solid var(--sv-300);border-radius:12px;box-shadow:0 10px 30px rgba(31,38,51,.15)}
+.toast-silver .toast-header{background:transparent;border-color:var(--sv-200)}
+
+@media (prefers-reduced-motion:reduce){
+  .pm-logo *,.splash::before,.login-page::after,.splash-halo,.splash-bar>i{animation:none!important}
+  .splash,.pm-loader,.pm-loader-card{transition:none}
+}

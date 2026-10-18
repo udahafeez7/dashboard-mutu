@@ -2,28 +2,98 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src https://cdn.jsdelivr.net; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#e6e9ee">
 <title>Masuk · Portal Mutu FTI Universitas Andalas</title>
-<link rel="stylesheet" href="assets/portal.css">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" integrity="sha384-Gu3KVV2H9d+yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC" crossorigin="anonymous">
+<link rel="stylesheet" href="assets/ui.css">
 </head>
-<body class="login-body">
-<main class="login-card">
-  <h1>Portal Mutu FTI</h1>
-  <p class="sub">Universitas Andalas · Gugus Penjamin Mutu</p>
-  <form id="f" autocomplete="on" novalidate>
-    <label for="u">Username</label>
-    <input id="u" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required autofocus>
-    <label for="p">Password</label>
-    <input id="p" name="password" type="password" autocomplete="current-password" required>
-    <button id="b" type="submit">Masuk</button>
-  </form>
-  <div id="msg" class="login-msg" hidden></div>
-  <p class="login-foot">Akun diberikan oleh admin GPM. Lupa password atau belum punya akun? Hubungi admin GPM FTI.</p>
+<body class="login-page">
+
+<!-- Splash awal: tampil sekali per sesi tab -->
+<div id="splash" class="splash" role="status" aria-live="polite" aria-label="Memuat Portal Mutu FTI">
+  <div class="splash-inner">
+    <div class="splash-halo" aria-hidden="true"></div>
+    <div class="pm-logo main">
+      <img class="l-unand" src="assets/img/logo-unand.png" alt="">
+      <img class="l-mark" src="assets/img/logo-fti-mark.png" alt="">
+      <img class="l-teks" src="assets/img/logo-fti-teks.png" alt="Fakultas Teknologi Informasi Universitas Andalas">
+      <span class="l-kilau" aria-hidden="true"></span>
+    </div>
+    <div class="splash-bar" id="sp-bar"><i></i></div>
+    <div class="splash-status" id="sp-status">Memulai…</div>
+  </div>
+  <div class="splash-ver">Portal Mutu · Gugus Penjamin Mutu</div>
+</div>
+<script src="assets/splash.js"></script>
+
+<main class="card login-card" id="kartu">
+  <div class="card-body">
+    <div class="pm-logo kilau-saja" aria-hidden="true">
+      <img class="l-unand" src="assets/img/logo-unand.png" alt="">
+      <img class="l-mark" src="assets/img/logo-fti-mark.png" alt="">
+      <img class="l-teks" src="assets/img/logo-fti-teks.png" alt="">
+      <span class="l-kilau"></span>
+    </div>
+    <h1>Portal Mutu</h1>
+    <p class="sub">Gugus Penjamin Mutu · Fakultas Teknologi Informasi Universitas Andalas</p>
+
+    <form id="f" novalidate autocomplete="on">
+      <div class="form-floating mb-3">
+        <input id="u" name="username" class="form-control" placeholder="username" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+        <label for="u"><i class="bi bi-person"></i>Username</label>
+        <div class="invalid-feedback">Username wajib diisi.</div>
+      </div>
+      <div class="input-group has-validation">
+        <div class="form-floating">
+          <input id="p" name="password" type="password" class="form-control" placeholder="password" autocomplete="current-password" required>
+          <label for="p"><i class="bi bi-lock"></i>Password</label>
+        </div>
+        <button class="btn" type="button" id="lihat" aria-label="Tampilkan password" aria-pressed="false"><i class="bi bi-eye"></i></button>
+        <div class="invalid-feedback">Password wajib diisi.</div>
+      </div>
+      <div class="caps" id="caps" hidden><i class="bi bi-capslock-fill me-1"></i>Caps Lock aktif</div>
+
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <div class="form-check small">
+          <input class="form-check-input" type="checkbox" id="ingat">
+          <label class="form-check-label" for="ingat">Ingat username</label>
+        </div>
+        <button type="button" class="btn btn-link btn-sm p-0 link-secondary text-decoration-none" id="lupa">Lupa password?</button>
+      </div>
+
+      <button class="btn btn-silver btn-lg w-100" id="b" type="submit">
+        <span class="spinner-border spinner-border-sm me-2" id="spin" aria-hidden="true" hidden></span><span id="b-teks">Masuk</span>
+      </button>
+
+      <div id="prog" hidden>
+        <div class="progress mt-3" role="progressbar" aria-label="Progres masuk" style="height:4px">
+          <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" id="prog-bar" style="width:0%"></div>
+        </div>
+        <ol class="tahap" id="tahap">
+          <li data-t="akun"><i class="bi bi-circle"></i>Mencari akun</li>
+          <li data-t="kunci"><i class="bi bi-circle"></i>Memverifikasi password &amp; membuka kunci data</li>
+          <li data-t="sukses"><i class="bi bi-circle"></i>Menyiapkan portal</li>
+        </ol>
+      </div>
+    </form>
+
+    <div id="msg" class="alert alert-danger login-alert" role="alert" hidden><i class="bi bi-exclamation-octagon-fill"></i><span></span></div>
+
+    <p class="login-foot"><i class="bi bi-shield-lock-fill"></i><span>Data portal terenkripsi AES-256. Akun diberikan oleh admin GPM FTI.</span></p>
+  </div>
 </main>
+<p class="login-copy">© 2026 Gugus Penjamin Mutu FTI Universitas Andalas</p>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="assets/auth.js"></script>
+<script src="assets/ui.js"></script>
 <script src="assets/login.js"></script>
 </body>
 </html>

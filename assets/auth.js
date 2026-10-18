@@ -36,12 +36,15 @@ const Auth = (() => {
     return JSON.parse(dec.decode(pt));
   }
 
-  async function login(username, password){
+  /* tahap(nama) dipanggil di tiap langkah agar UI bisa menampilkan progres: akun, kunci, sukses. */
+  async function login(username, password, tahap = () => {}){
+    tahap("akun");
     const db = await getJSON("data/akun.json");
     const id = await akunId(db.pepper, username);
     const a = db.akun.find(x => x.id === id);
     // Akun tidak dikenal tetap menjalankan PBKDF2 agar waktu respons tidak membocorkan username.
     const iter = a ? a.iterasi : db.iterasi;
+    tahap("kunci");
     const key = await kek(password, a ? b64(a.salt) : crypto.getRandomValues(new Uint8Array(16)), iter);
     if (!a) throw new Error("Username atau password salah.");
     let isi;
@@ -50,6 +53,7 @@ const Auth = (() => {
     const now = Date.now();
     const sesi = {u: isi.u, nama: isi.nama, peran: isi.peran, prodi: isi.prodi || null, k: isi.k, mulai: now, aktif: now};
     sessionStorage.setItem(SESI, JSON.stringify(sesi));
+    tahap("sukses");
     return sesi;
   }
 
@@ -61,13 +65,21 @@ const Auth = (() => {
     if (now - s.aktif > IDLE_MS || now - s.mulai > MAKS_MS) { logout(); return null; }
     return s;
   }
+  /* Milidetik sampai sesi berakhir (idle atau batas maksimum). */
+  function sisa(){
+    const s = sesi();
+    if (!s) return 0;
+    const now = Date.now();
+    return Math.min(IDLE_MS - (now - s.aktif), MAKS_MS - (now - s.mulai));
+  }
   function sentuh(){
     const s = sesi();
     if (s) { s.aktif = Date.now(); sessionStorage.setItem(SESI, JSON.stringify(s)); }
   }
   function logout(alasan){
     sessionStorage.removeItem(SESI);
-    if (alasan) sessionStorage.setItem(SESI + ".pesan", alasan);
+    // Pesan pertama yang menang: logout manual tidak tertimpa oleh pemeriksa sesi berkala.
+    if (alasan && !sessionStorage.getItem(SESI + ".pesan")) sessionStorage.setItem(SESI + ".pesan", alasan);
   }
   function pesan(){
     const m = sessionStorage.getItem(SESI + ".pesan");
@@ -94,35 +106,50 @@ const Auth = (() => {
   }
 
   /* Membuka file terenkripsi dengan kunci data K dari sesi. */
-  async function bukaData(url, aad){
+  async function bukaData(url, aad, tahap = () => {}){
     const s = sesi();
     if (!s) throw new Error("Belum login");
-    return open(await aesKey(b64(s.k)), await getJSON(url), aad);
+    tahap("unduh");
+    const box = await getJSON(url);
+    tahap("dekripsi");
+    return open(await aesKey(b64(s.k)), box, aad);
   }
-  const muatMutu = () => bukaData("data/mutu.enc.json", "mutu.json");
+  const muatMutu = tahap => bukaData("data/mutu.enc.json", "mutu.json", tahap);
   async function daftarAkun(){
     const s = sesi(), db = await getJSON("data/akun.json"), key = await aesKey(b64(s.k));
     return Promise.all(db.akun.map(a => open(key, a.profil, "profil:" + a.id)));
   }
 
-  /* Bilah atas portal: identitas pengguna, navigasi, tombol keluar. */
+  /* Bilah atas portal: logo, navigasi, identitas pengguna, tombol keluar. */
   const PERAN = {admin: "Administrator", gpm: "GPM", gkm: "GKM", pimpinan: "Pimpinan"};
+  function el(tag, cls, teks){ const e = document.createElement(tag); if (cls) e.className = cls; if (teks != null) e.textContent = teks; return e; }
   function bilah(s, aktif){
-    const bar = document.createElement("div");
-    bar.className = "pbar";
-    const link = (href, teks) => { const a = document.createElement("a"); a.href = href; a.textContent = teks; if (href === aktif) a.setAttribute("aria-current", "page"); return a; };
-    const kiri = document.createElement("div"); kiri.className = "pbar-l";
-    const brand = document.createElement("b"); brand.textContent = "Portal Mutu FTI";
-    kiri.append(brand, link("portal.html", "Beranda"), link("dashboard.html", "Dashboard Mutu"));
-    const kanan = document.createElement("div"); kanan.className = "pbar-r";
-    const who = document.createElement("span");
-    who.textContent = s.nama + " · " + (PERAN[s.peran] || s.peran) + (s.prodi ? " " + s.prodi : "");
-    const out = document.createElement("button"); out.type = "button"; out.textContent = "Keluar";
-    out.addEventListener("click", () => { logout("Anda telah keluar."); location.replace("index.html"); });
-    kanan.append(who, out);
+    const bar = el("div", "pbar");
+    const link = (href, teks, ikon) => {
+      const a = el("a"); a.href = href;
+      if (ikon) a.append(el("i", "bi " + ikon + " me-1"));
+      a.append(teks);
+      if (href === aktif) a.setAttribute("aria-current", "page");
+      return a;
+    };
+    const kiri = el("div", "pbar-l");
+    const logo = el("img", "pbar-logo"); logo.src = "assets/img/logo-fti.png"; logo.alt = "FTI Universitas Andalas";
+    const brand = el("a"); brand.href = "portal.html"; brand.append(logo); brand.style.borderBottom = "0";
+    kiri.append(brand, el("b", null, "Portal Mutu"), link("portal.html", "Beranda", "bi-house"), link("dashboard.html", "Dashboard Mutu", "bi-graph-up"));
+    const kanan = el("div", "pbar-r");
+    const inisial = s.nama.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase();
+    const who = el("div", "who");
+    who.append(el("b", null, s.nama), el("small", null, (PERAN[s.peran] || s.peran) + (s.prodi ? " · " + s.prodi : "")));
+    const out = el("button", "keluar"); out.type = "button";
+    out.append(el("i", "bi bi-box-arrow-right"), "Keluar");
+    out.addEventListener("click", () => {
+      if (typeof UI !== "undefined" && UI.keluar) UI.keluar();   // UI dideklarasikan dengan const, bukan properti window
+      else { logout("Anda telah keluar."); location.replace("index.html"); }
+    });
+    kanan.append(el("span", "avatar", inisial), who, out);
     bar.append(kiri, kanan);
     document.body.prepend(bar);
   }
 
-  return {login, sesi, logout, pesan, wajib, tujuanSetelahLogin, muatMutu, daftarAkun, bilah, PERAN};
+  return {login, sesi, sisa, sentuh, logout, pesan, wajib, tujuanSetelahLogin, muatMutu, daftarAkun, bilah, PERAN};
 })();

@@ -117,6 +117,7 @@ python tools/portal_admin.py dekripsi --timpa
 |---|---|---|
 | Tampilan / logika dashboard | `dashboard.html`, `assets/dashboard.js` | Tidak ada |
 | Halaman login / beranda | `index.html`, `portal.html`, `assets/login.js`, `assets/portal.js`, `assets/portal.css` | Tidak ada |
+| Tema silver, splash, loader, logout | `assets/ui.css`, `assets/ui.js`, `assets/splash.js` | Tidak ada |
 | Isi data (realisasi, tindak lanjut, akreditasi) | `sumber/mutu.json` | `python tools/portal_admin.py enkripsi` |
 | Akun | (tidak diedit manual) | `tambah-akun`, `hapus-akun`, `ubah-sandi` |
 
@@ -177,7 +178,17 @@ Buka tab **Actions** di repositori GitHub. Workflow *Deploy Portal Mutu* berjala
   const data = await Auth.muatMutu();
   ```
   Tambahkan tautannya di `Auth.bilah` dan di kartu modul `portal.html`, lalu tambahkan nama filenya ke langkah `cp` di `.github/workflows/pages.yml`. Workflow hanya mengunggah file yang disebut di sana.
-- **Content-Security-Policy** di tiap halaman melarang skrip inline. Letakkan JavaScript di `assets/*.js`. Skrip eksternal hanya diizinkan dari `cdn.jsdelivr.net` (Chart.js) di `dashboard.html`.
+- **Content-Security-Policy** di tiap halaman melarang skrip inline. Letakkan JavaScript di `assets/*.js`. Skrip, stylesheet, dan font eksternal hanya diizinkan dari `cdn.jsdelivr.net`. Setiap pustaka CDN memakai atribut `integrity` (SRI). Bila menaikkan versi, hitung ulang hash-nya:
+  ```bash
+  curl -sL https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css | openssl dgst -sha384 -binary | openssl base64 -A
+  ```
+- **Tampilan & animasi**:
+  - `assets/ui.css` berisi tema silver, splash, loader, dan gaya halaman login. Warna diatur lewat variabel `--sv-*` di bagian atas file.
+  - Splash logo (`assets/splash.js`) tampil sekali per tab. Untuk melihatnya lagi saat mengembangkan, tutup tab atau jalankan `sessionStorage.clear()` di konsol browser.
+  - Loader dipanggil lewat `UI.loader.tampil(judul, pesan)`, `UI.loader.pesan(teks)`, `UI.loader.sukses(judul, pesan)`, `UI.loader.sembunyi(minimalMs)`. Toast lewat `UI.toast(teks, "sukses"|"info"|"peringatan"|"galat")`.
+  - Halaman terlindungi memakai `<body data-loader="Judul loader">` serta memuat `auth.js` dan `ui.js` di awal `<body>`, supaya loader muncul sebelum isi halaman terlihat. Panggil `UI.jagaSesi()` untuk peringatan sesi hampir habis.
+  - Pengguna yang mengaktifkan *reduce motion* di sistem operasinya otomatis mendapat versi tanpa animasi.
+- **Dashboard & Bootstrap**: `dashboard.html` memiliki kelas `.card` dan `.badge` sendiri. Gaya Bootstrap yang bentrok dinetralkan di blok `<style>` dashboard (cari komentar "netralkan gaya Bootstrap").
 - **Data contoh**: `python gen_data.py` menulis ulang `sumber/mutu.json` dengan data contoh. Jangan jalankan bila data asli sudah diisi.
 - **Peringatan "LF will be replaced by CRLF"** di Windows tidak berbahaya dan boleh diabaikan.
 

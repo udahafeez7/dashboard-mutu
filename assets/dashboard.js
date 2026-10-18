@@ -1,6 +1,8 @@
 "use strict";
 const SESI = Auth.wajib();
 Auth.bilah(SESI, "dashboard.html");
+UI.jagaSesi();
+const TAHAP = {unduh: "Mengunduh data terenkripsi…", dekripsi: "Mendekripsi data (AES-256-GCM)…"};
 let DATA = null, sumber = "data/mutu.enc.json";
 const charts = {};
 const TABS = ["indikator","tindak","akreditasi"];
@@ -237,9 +239,9 @@ function render(){
   document.getElementById("foot").textContent = "Rujukan: " + DATA.meta.rujukan + " · sumber data: " + sumber + " · diperbarui " + DATA.meta.diperbarui + " · disegarkan otomatis tiap 60 detik";
 }
 async function load(){
+  const first = !DATA;
   try {
-    const first = !DATA;
-    DATA = await Auth.muatMutu();
+    DATA = await Auth.muatMutu(first ? t => UI.loader.pesan(TAHAP[t]) : undefined);
     // GKM prodi langsung melihat prodinya sendiri; filter tetap bisa diubah.
     if (first && SESI.prodi && DATA.prodi.some(p => p.nama === SESI.prodi)) state.prodi = SESI.prodi;
   } catch (e) {
@@ -247,10 +249,13 @@ async function load(){
       const b = document.getElementById("banner");
       b.classList.remove("hidden");
       b.textContent = "Data tidak dapat dibuka: " + e.message + ". Coba keluar lalu masuk kembali; bila tetap gagal, hubungi admin GPM.";
+      UI.loader.sembunyi();
     }
     return;
   }
+  if (first) UI.loader.pesan("Menyusun grafik dan tabel…");
   setupFilters(); render();
+  if (first) UI.loader.sembunyi(1000);
 }
 document.getElementById("f-prodi").addEventListener("change", e => { state.prodi = e.target.value; render(); });
 document.getElementById("f-sasaran").addEventListener("change", e => { state.sasaran = e.target.value; state.sel = null; render(); });

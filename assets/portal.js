@@ -2,6 +2,7 @@
 (async () => {
   const s = Auth.wajib();
   Auth.bilah(s, "portal.html");
+  UI.jagaSesi();
   const el = id => document.getElementById(id);
   el("sapa").textContent = "Selamat datang, " + s.nama;
   el("sub").textContent = (Auth.PERAN[s.peran] || s.peran) + (s.prodi ? " · " + s.prodi : "") + " · Portal Mutu FTI Universitas Andalas";
@@ -10,8 +11,9 @@
     const d = document.createElement("div"), sm = document.createElement("small"), b = document.createElement("b");
     sm.textContent = label; b.textContent = nilai; d.append(sm, b); return d;
   };
+  const TAHAP = {unduh: "Mengunduh data terenkripsi…", dekripsi: "Mendekripsi data (AES-256-GCM)…"};
   try {
-    const D = await Auth.muatMutu(), today = new Date().toISOString().slice(0, 10);
+    const D = await Auth.muatMutu(t => UI.loader.pesan(TAHAP[t])), today = new Date().toISOString().slice(0, 10);
     const T = D.tindak_lanjut, I = D.indikator;
     const terisi = I.filter(i => Array.isArray(i.realisasi) && i.realisasi.length).length;
     el("ringkas").replaceChildren(
@@ -26,6 +28,7 @@
     el("foot").textContent = e.message;
   }
 
+  UI.loader.pesan("Menyusun ringkasan…");
   if (s.peran === "admin") {
     el("panel-admin").hidden = false;
     try {
@@ -44,4 +47,5 @@
       el("akun").replaceChildren(t);
     } catch (e) { el("akun").textContent = "Gagal membaca daftar akun: " + e.message; }
   }
+  UI.loader.sembunyi(900);
 })();
