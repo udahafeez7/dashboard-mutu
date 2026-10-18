@@ -160,13 +160,7 @@ git push
 ## 9. Bekerja di lebih dari satu perangkat
 
 - Kode tersinkron lewat git (`git pull` sebelum mulai, `git push` setelah selesai).
-- **Database tidak tersinkron lewat git.** Tiap perangkat punya MySQL sendiri. Untuk memindahkan isi database (akun, data, log) dari perangkat A ke B:
-  ```bash
-  # di perangkat A
-  C:\xampp\mysql\bin\mysqldump.exe -u root portal_mutu > portal_mutu.sql
-  # salin file itu ke perangkat B (JANGAN di-commit: berisi hash password), lalu setelah langkah 4:
-  C:\xampp\mysql\bin\mysql.exe -u root portal_mutu < portal_mutu.sql
-  ```
+- **Database tidak tersinkron lewat git** (isinya berisi hash password). Tiap perangkat punya MySQL sendiri. Cara memindahkan akun, data, dan log ke laptop lain ada di [PINDAH-LAPTOP.md](PINDAH-LAPTOP.md). Ekspor memakai `--result-file` dan impor memakai `source`; jangan memakai `>` atau `<` di PowerShell karena merusak file.
 - Bila hanya data dashboard yang perlu dipindah, gunakan **Unduh versi aktif** di Pengaturan > Data Dashboard di perangkat A, lalu unggah di perangkat B.
 
 ---

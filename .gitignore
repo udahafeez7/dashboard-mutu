@@ -5,6 +5,10 @@ data/mutu.json
 *.tmp
 __pycache__/
 
+# Cadangan database berisi hash password: jangan pernah di-commit
+*.sql
+!server/sql/*.sql
+
 # Backend Node.js
 server/.env
 server/node_modules/

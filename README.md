@@ -3,7 +3,7 @@
 Dibangun dari Renstra FTI UNAND 2026-2030 (SK Dekan No. 67/UN16.15.D/KPT/VIII/2026).
 Dashboard memiliki tiga modul: **Monitoring Indikator**, **Monitoring Tindak Lanjut**, dan **Capaian Akreditasi**. Dashboard berada di dalam portal berlogin, dengan akun, sesi, log, pengaturan, dan data yang disimpan di **MySQL**.
 
-Menyiapkan di perangkat lain (clone, XAMPP, menjalankan, commit): lihat [PANDUAN-DEVELOP.md](PANDUAN-DEVELOP.md).
+Menyiapkan di perangkat lain (clone, XAMPP, menjalankan, commit): lihat [PANDUAN-DEVELOP.md](PANDUAN-DEVELOP.md). Memindahkan kode **dan isi database** ke laptop lain: [PINDAH-LAPTOP.md](PINDAH-LAPTOP.md).
 
 ## Mulai cepat (Windows + XAMPP)
 1. Nyalakan **MySQL** di XAMPP Control Panel. Apache tidak diperlukan, dan folder proyek **tidak** perlu dipindah ke `htdocs`.
