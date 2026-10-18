@@ -3,6 +3,8 @@
 Dibangun dari Renstra FTI UNAND 2026-2030 (SK Dekan No. 67/UN16.15.D/KPT/VIII/2026).
 Tiga modul: **Monitoring Indikator**, **Monitoring Tindak Lanjut**, **Capaian Akreditasi**.
 
+Mengembangkan di perangkat lain (clone, setup, commit): lihat [PANDUAN-DEVELOP.md](PANDUAN-DEVELOP.md).
+
 ## Apa yang sudah asli dan apa yang masih contoh
 | Bagian | Status |
 |---|---|
@@ -46,6 +48,7 @@ python tools/portal_admin.py daftar-akun
 python tools/portal_admin.py ubah-sandi gkm.si      # oleh pemilik akun (password lama) atau admin
 python tools/portal_admin.py hapus-akun gkm.si
 python tools/portal_admin.py enkripsi               # setelah mengubah sumber/mutu.json
+python tools/portal_admin.py dekripsi               # perangkat baru: pulihkan sumber/mutu.json
 ```
 Setelah perintah apa pun, commit `data/akun.json` dan/atau `data/mutu.enc.json`.
 

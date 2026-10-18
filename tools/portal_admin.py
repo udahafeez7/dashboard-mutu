@@ -13,6 +13,7 @@ Perintah (jalankan dari folder repositori):
   python tools/portal_admin.py ubah-sandi USER
   python tools/portal_admin.py daftar-akun
   python tools/portal_admin.py enkripsi
+  python tools/portal_admin.py dekripsi     (perangkat baru: pulihkan sumber/mutu.json)
 
 Password diminta lewat prompt. Untuk otomasi bisa diisi lewat variabel lingkungan:
   PORTAL_SANDI          password akun yang dibuat/diubah
@@ -225,6 +226,16 @@ def cmd_enkripsi(a):
     print("Commit data/mutu.enc.json agar dashboard diperbarui.")
 
 
+def cmd_dekripsi(a):
+    if SUMBER.exists() and not a.timpa:
+        sys.exit(f"{SUMBER.relative_to(ROOT)} sudah ada. Gunakan --timpa untuk menggantinya dengan isi data/mutu.enc.json.")
+    db = muat_db()
+    _, k = login(db, ("admin", "gpm"))
+    data = unseal(k, json.loads(DATA_ENC.read_text(encoding="utf-8")), "mutu.json")
+    tulis(SUMBER, data)
+    print(f"Dipulihkan: {DATA_ENC.relative_to(ROOT)} -> {SUMBER.relative_to(ROOT)} (diperbarui {data['meta'].get('diperbarui')})")
+
+
 def main():
     ap = argparse.ArgumentParser(description="Kelola akun dan data terenkripsi Portal Mutu FTI.")
     sp = ap.add_subparsers(dest="cmd", required=True)
@@ -240,6 +251,9 @@ def main():
     p = sp.add_parser("ubah-sandi", help="ganti password akun"); p.add_argument("username"); p.set_defaults(f=cmd_ubah_sandi)
     sp.add_parser("daftar-akun", help="tampilkan semua akun (admin)").set_defaults(f=cmd_daftar)
     sp.add_parser("enkripsi", help="enkripsi ulang sumber/mutu.json (admin/gpm)").set_defaults(f=cmd_enkripsi)
+    p = sp.add_parser("dekripsi", help="pulihkan sumber/mutu.json dari data/mutu.enc.json (admin/gpm)")
+    p.add_argument("--timpa", action="store_true", help="ganti sumber/mutu.json yang sudah ada")
+    p.set_defaults(f=cmd_dekripsi)
     a = ap.parse_args()
     a.f(a)
 
