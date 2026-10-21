@@ -225,38 +225,88 @@ function renderIndikator(){
   const ringkasIKSS = i => [i.program + " · " + i.nama, "Satuan: " + satuanTeks(i), "Baseline 2025: " + (i.baseline == null ? "tidak tercantum" : nilai(i, i.baseline)),
     "Target " + yr + ": " + nilai(i, i.target[yIdx()]), "Realisasi: " + (hasData(i) ? nilai(i, i.realisasi[lastTW(i)]) + " (TW" + (lastTW(i) + 1) + ")" : "belum diisi"),
     "Capaian: " + (hasData(i) ? fmt(capaian(i), 0) + "%" : "menunggu data"), "Status: " + indStatus(i)[0]].join("\n");
-  table("t-ind","ind",[
-    {key:"program", label:"Prog.", w:66, lengket:true, cell:i=>h("span",{class:"kode"},i.program), teks:i=>i.program+": "+i.program_nama},
-    {key:"nama", label:"IKSS", w:330, lengket:true, cell:i=>i.nama},
-    {key:"sasaran", label:"SS", w:58},
-    {key:"iku", label:"IKU", w:72, cell:i=>i.iku.replace("IKU ","IKU ")},
-    {key:"satuan", label:"Satuan", w:116, cell:i=>h("span",{class:"redup"},satuanTeks(i)), teks:satuanTeks, val:satuanTeks},
-    {key:"baseline", label:"Baseline 2025", w:116, num:true, val:i=>i.baseline,
-      cell:i=>i.baseline == null ? kosong("tidak tercantum","Baseline 2025 tidak dicantumkan di Tabel 6 Renstra") : num(i.baseline, desimal(i))},
-    {key:"target", label:"Target "+yr, w:104, num:true, val:i=>i.target[yIdx()], cell:i=>num(i.target[yIdx()], desimal(i))},
-    {key:"pembanding", label:"Pembanding", w:116, num:true, val:pembanding,
-      judul:"Target yang dipakai menghitung capaian: target tahunan, atau target pro-rata triwulan untuk indikator kumulatif",
-      cell:i=>{ const n = num(pembanding(i), Math.max(desimal(i), i.tipe === "kumulatif" ? 2 : 0)); if (i.tipe === "kumulatif") n.title = "Pro-rata TW" + (twPembanding(i)+1) + " dari target tahunan"; return n; }},
-    {key:"real", label:"Realisasi", w:104, num:true, val:i=>hasData(i)?i.realisasi[lastTW(i)]:null,
-      cell:i=>hasData(i) ? num(i.realisasi[lastTW(i)], desimal(i)) : kosong("menunggu", "Diukur " + i.periode_ukur.toLowerCase() + "; diisi setelah pengukuran", "bi-hourglass-split")},
-    {key:"capaian", label:"Capaian", w:96, num:true, val:capaian,
-      cell:i=>hasData(i) ? h("span",{class:"n"},h("span",{class:"i"},fmt(capaian(i),0)),h("span",{class:"f"},"%")) : kosong("—","Capaian dihitung setelah realisasi diisi")},
-    {key:"status", label:"Status", w:132, cell:i=>{const s=indStatus(i);return badge(s[0],s[1]);}, val:i=>indStatus(i)[0], teks:i=>indStatus(i)[0]},
-  ], I, {judul:"Tabel IKSS", satuan:"indikator", aksiW:112, onrow:i=>{state.sel=i.id;render();}, isSel:i=>i.id===state.sel,
-    aksi:i=>[
-      {ikon:"bi-graph-up", label:"Tampilkan lintasan target", klik:i=>{ state.sel=i.id; render(); document.getElementById("c-traj").scrollIntoView({behavior:"smooth", block:"center"}); }},
-      {ikon:"bi-card-text", label:"Detail indikator", klik:i=>detail(i.program + " · " + i.nama, [
-        ["Program", i.program + ": " + i.program_nama], ["Sasaran", i.sasaran], ["IKU", i.iku + (i.iku_dikti ? " · " + i.iku_dikti : "")],
-        ["Satuan", satuanTeks(i)], ["Arah", i.arah === "turun" ? "Turun (makin kecil makin baik)" : "Naik"], ["Tipe", i.tipe + " · diukur " + i.periode_ukur.toLowerCase()],
-        ["Baseline 2025", i.baseline == null ? "Tidak tercantum di Renstra" : nilai(i, i.baseline), true],
-        ["Target 2026-2030", i.target.map(v => nilai(i, v)).join(" → "), true],
-        ["Realisasi per TW", hasData(i) ? i.realisasi.map((v, k) => "TW" + (k+1) + ": " + nilai(i, v)).join(" · ") : "Belum diisi (" + i.periode_ukur.toLowerCase() + ")", true],
-        ["Capaian", hasData(i) ? fmt(capaian(i), 0) + "% · " + indStatus(i)[0] : "Menunggu data", true]])},
-      {ikon:"bi-clipboard", label:"Salin ringkasan", klik:i=>salin(ringkasIKSS(i), "Ringkasan " + i.program)},
-    ]});
+  const bukaDetail = i => detail(i.program + " · " + i.nama, [
+    ["Program", i.program + ": " + i.program_nama], ["Sasaran", i.sasaran], ["IKU", i.iku + (i.iku_dikti ? " · " + i.iku_dikti : "")],
+    ["Satuan", satuanTeks(i)], ["Arah", i.arah === "turun" ? "Turun (makin kecil makin baik)" : "Naik"], ["Tipe", i.tipe + " · diukur " + i.periode_ukur.toLowerCase()],
+    ["Baseline 2025", i.baseline == null ? "Tidak tercantum di Renstra" : nilai(i, i.baseline), true],
+    ["Target 2026-2030", i.target.map(v => nilai(i, v)).join(" → "), true],
+    ["Realisasi per TW", hasData(i) ? i.realisasi.map((v, k) => "TW" + (k+1) + ": " + nilai(i, v)).join(" · ") : "Belum diisi (" + i.periode_ukur.toLowerCase() + ")", true],
+    ["Capaian", hasData(i) ? fmt(capaian(i), 0) + "% · " + indStatus(i)[0] : "Menunggu data", true]]);
+  daftarIKSS(I, {pembanding, satuanTeks, nilai, ringkasIKSS, bukaDetail});
 
   const c = DATA.catatan_validasi || [];
   document.getElementById("validasi").replaceChildren(c.length ? h("div",{class:"callout"}, h("ul",null,c.map(x=>h("li",null,x)))) : "Tidak ada catatan.");
+}
+
+/* Daftar IKSS: kartu per indikator (nama utuh, realisasi vs target, status), pengganti tabel 11 kolom.
+ * Klik kartu memilih indikator untuk grafik lintasan; filter disimpan di state.ik. */
+const IK_STATUS = ["Tercapai", "Mendekati", "Belum tercapai", "Belum ada data"];
+const IK_URUT = {
+  program: ["Urutan program", (a, b) => a.id.localeCompare(b.id, "id", {numeric:true})],
+  rendah:  ["Capaian terendah", (a, b) => (!hasData(a) - !hasData(b)) || capaian(a) - capaian(b)],
+  tinggi:  ["Capaian tertinggi", (a, b) => (!hasData(a) - !hasData(b)) || capaian(b) - capaian(a)],
+};
+function daftarIKSS(I, {pembanding, satuanTeks, nilai, ringkasIKSS, bukaDetail}){
+  const f = state.ik || (state.ik = {q:"", status:"Semua", urut:"program"});
+  const host = document.getElementById("t-ind");
+  const fokusCari = document.activeElement && document.activeElement.id === "ik-cari" ? document.activeElement.selectionStart : null;
+  const stat = i => indStatus(i)[0];
+  const yr = DATA.meta.tahun_berjalan;
+  const list = h("div", {class:"tli-list", "aria-live":"polite"});
+  const jumlah = h("span", {class:"tbl-jumlah"});
+  const reset = h("button", {type:"button", class:"tli-reset", onclick(){ Object.assign(f, {q:"", status:"Semua"}); render(); }}, h("i", {class:"bi bi-x-circle", "aria-hidden":"true"}), "Atur ulang filter");
+  const cocok = i => (f.status === "Semua" || stat(i) === f.status) &&
+    (!f.q || [i.program, i.program_nama, i.nama, i.sasaran, i.iku].join(" ").toLowerCase().includes(f.q.toLowerCase()));
+  const warna = {ok:"#15803d", warn:"#d97706", bad:"#b91c1c", neutral:"#94a3b8"};
+
+  function isi(){
+    const rows = I.filter(cocok).sort(IK_URUT[f.urut][1]);
+    const aktif = f.q || f.status !== "Semua";
+    jumlah.replaceChildren(h("b", null, rows.length), " dari " + I.length + " indikator");
+    reset.classList.toggle("hidden", !aktif);
+    list.replaceChildren(...(rows.length ? rows.map(kartu) : [h("div", {class:"tli-kosong"}, h("i", {class:"bi bi-search", "aria-hidden":"true"}),
+      h("b", null, "Tidak ada indikator yang cocok"), h("span", null, "Ubah kata kunci atau atur ulang filter."))]));
+  }
+  function kartu(i){
+    const [st, nada] = indStatus(i), ada = hasData(i), pilih = () => { state.sel = i.id; render(); };
+    const cap = ada ? capaian(i) : null;
+    const tombol = (ikon, label, klik) => h("button", {type:"button", class:"tli-btn", title:label, "aria-label":label + " " + i.program, onclick(e){ e.stopPropagation(); klik(); }},
+      h("i", {class:"bi " + ikon, "aria-hidden":"true"}), h("span", null, label));
+    const sat = i.fmt === "rasio" ? "" : i.satuan === "%" ? "%" : " " + i.satuan;
+    const angka = v => i.fmt === "rasio" ? "1:" + fmt(v, 0) : nilai(i, v) + sat;
+    const el = h("article", {class:"tli tli-" + (nada === "warn" ? "kuning" : nada) + (i.id === state.sel ? " dipilih" : ""), tabindex:"0", "aria-current":String(i.id === state.sel),
+      "aria-label":i.program + ": " + i.nama + ". " + st, onclick:pilih,
+      onkeydown(e){ if ((e.key === "Enter" || e.key === " ") && e.target === el) { e.preventDefault(); pilih(); } }},
+      h("div", {class:"tli-utama"},
+        h("div", {class:"tli-kepala"}, h("span", {class:"kode", title:i.program_nama}, i.program), h("span", {class:"tli-chip"}, i.sasaran), h("span", {class:"tli-chip"}, i.iku),
+          i.id === state.sel ? h("span", {class:"tli-chip tampil"}, h("i", {class:"bi bi-graph-up", "aria-hidden":"true"}), "tampil di grafik") : null),
+        h("p", {class:"tli-temuan"}, i.nama),
+        h("div", {class:"tli-meta"},
+          h("span", {title:"Program"}, h("i", {class:"bi bi-diagram-3", "aria-hidden":"true"}), i.program_nama),
+          h("span", {title:"Baseline 2025"}, h("i", {class:"bi bi-flag", "aria-hidden":"true"}), "Baseline: " + (i.baseline == null ? "tidak tercantum" : angka(i.baseline))),
+          i.tipe === "kumulatif" && ada ? h("span", {title:"Target pro-rata triwulan untuk indikator kumulatif"}, h("i", {class:"bi bi-percent", "aria-hidden":"true"}), "Pembanding: " + angka(pembanding(i))) : null)),
+      h("div", {class:"tli-status"},
+        badge(st, nada),
+        h("div", {class:"ik-angka"},
+          h("div", null, h("small", null, "Realisasi"), ada ? h("b", null, angka(i.realisasi[lastTW(i)])) : h("span", {class:"kosong", title:"Diukur " + i.periode_ukur.toLowerCase() + "; diisi setelah pengukuran"}, h("i", {class:"bi bi-hourglass-split", "aria-hidden":"true"}), "menunggu data")),
+          h("div", null, h("small", null, "Target " + yr), h("b", null, angka(i.target[yIdx()])))),
+        ada ? h("div", {class:"tli-prog", title:"Capaian " + fmt(cap, 0) + "%"}, h("span", {class:"bar", role:"img", "aria-label":"Capaian " + fmt(cap, 0) + " persen"}, h("i", {style:"width:" + Math.min(100, cap) + "%;background:" + warna[nada]})), h("b", null, fmt(cap, 0) + "%")) : null),
+      h("div", {class:"tli-aksi"}, tombol("bi-card-text", "Detail", () => bukaDetail(i)), tombol("bi-clipboard", "Salin", () => salin(ringkasIKSS(i), "Ringkasan " + i.program))));
+    return el;
+  }
+
+  const hitung = s => s === "Semua" ? I.length : I.filter(i => stat(i) === s).length;
+  const chips = h("div", {class:"tli-chips", role:"group", "aria-label":"Filter status"}, ["Semua", ...IK_STATUS].map(s =>
+    h("button", {type:"button", class:"tli-pil" + (s === "Belum tercapai" ? " bad" : ""), "aria-pressed":String(f.status === s), onclick(){ f.status = s; render(); }}, s, h("span", {class:"n"}, hitung(s)))));
+  const cari = h("input", {id:"ik-cari", type:"search", class:"tli-cari", placeholder:"Cari indikator, program, atau IKU…", "aria-label":"Cari indikator", value:f.q, autocomplete:"off",
+    oninput(e){ f.q = e.target.value.trim(); isi(); }});
+  const urut = h("label", {class:"tli-pilih"}, h("span", null, "Urutkan"), h("select", {onchange(e){ f.urut = e.target.value; render(); }},
+    Object.entries(IK_URUT).map(([k, v]) => h("option", Object.assign({value:k}, k === f.urut ? {selected:""} : {}), v[0]))));
+  isi();
+  host.replaceChildren(
+    h("div", {class:"tli-alat"}, h("div", {class:"tli-baris"}, h("div", {class:"tli-cariwrap"}, h("i", {class:"bi bi-search", "aria-hidden":"true"}), cari), urut), chips, h("div", {class:"tli-info"}, jumlah, reset)),
+    list);
+  if (fokusCari != null) { const c = document.getElementById("ik-cari"); c.focus(); c.setSelectionRange(fokusCari, fokusCari); }
 }
 
 /* ---------- tab: tindak lanjut ---------- */
@@ -271,28 +321,86 @@ function renderTindak(){
   const nadaTL = st => st==="Selesai"?"ok":st==="Terlambat"?"bad":st==="Berjalan"?"warn":"neutral";
   const ringkasTL = t => [t.id + " · " + t.temuan, "Unit: " + t.prodi, "Sumber: " + t.sumber, "Rujukan: " + t.rujukan, "PIC: " + t.pic,
     "Tenggat: " + tglID(t.tenggat), "Progres: " + t.progres + "%", "Evidence: " + (t.evidence ? "ada" : "belum"), "Status: " + tlStatus(t)].join("\n");
-  table("t-tl","tl",[
-    {key:"id", label:"ID", w:78, lengket:true, cell:t=>h("span",{class:"kode"},t.id)},
-    {key:"temuan", label:"Temuan", w:340, lengket:true},
-    {key:"prodi", label:"Unit", w:150},
-    {key:"sumber", label:"Sumber", w:156},
-    {key:"pic", label:"PIC", w:180},
-    {key:"rujukan", label:"Rujukan", w:176, cell:t=>h("span",{class:"redup"},t.rujukan), teks:t=>t.rujukan},
-    {key:"tenggat", label:"Tenggat", w:116, num:true, cell:t=>tglID(t.tenggat)},
-    {key:"sisa", label:"Sisa hari", w:96, num:true, judul:"Hari menuju tenggat; negatif berarti terlambat",
-      val:t=>t.status==="Selesai"?null:sisaHari(t),
-      cell:t=>{ if (t.status==="Selesai") return kosong("selesai","Sudah selesai; tenggat tidak berlaku lagi");
-        const d = sisaHari(t); return h("span",{class:d<0?"negatif":"",title:d<0?"Terlambat "+(-d)+" hari":d+" hari lagi"}, d<0?"−"+fmt(-d,0):fmt(d,0)); }},
-    {key:"progres", label:"Progres", w:132, num:true, cell:t=>h("span",{class:"prog"},h("span",{class:"bar","aria-hidden":"true"},h("i",{style:"width:"+t.progres+"%"})),h("span",{class:"n"},h("span",{class:"i"},t.progres),h("span",{class:"f"},"%")))},
-    {key:"evidence", label:"Evidence", w:100, cell:t=>t.evidence?badge("Ada","ok"):badge("Belum","warn"), val:t=>t.evidence?1:0, teks:t=>t.evidence?"Evidence ada":"Evidence belum diunggah"},
-    {key:"status", label:"Status", w:120, cell:t=>{const st=tlStatus(t);return badge(st,nadaTL(st));}, val:tlStatus, teks:tlStatus},
-  ], T, {judul:"Tabel tindak lanjut", satuan:"temuan", aksiW:84, aksi:t=>[
-    {ikon:"bi-card-text", label:"Detail temuan", klik:t=>{ const d = sisaHari(t); detail(t.id + " · " + t.sumber, [
+  daftarTL(T, {nadaTL, ringkasTL});
+}
+
+/* Daftar tindak lanjut: kartu dengan teks temuan utuh, bukan tabel lebar.
+ * Pencarian, filter status/sumber, dan urutan disimpan di state.tl agar bertahan saat data disegarkan. */
+const TL_URUT = {
+  mendesak: ["Paling mendesak", (a, b) => (a.status === "Selesai") - (b.status === "Selesai") || a.tenggat.localeCompare(b.tenggat)],
+  tenggat:  ["Tenggat terdekat", (a, b) => a.tenggat.localeCompare(b.tenggat)],
+  progres:  ["Progres terendah", (a, b) => a.progres - b.progres],
+  id:       ["Nomor ID", (a, b) => a.id.localeCompare(b.id, "id", {numeric:true})],
+};
+const TL_STATUS = ["Terlambat", "Berjalan", "Belum mulai", "Selesai"];
+function daftarTL(T, {nadaTL, ringkasTL}){
+  const f = state.tl || (state.tl = {q:"", status:"Semua", sumber:"Semua", urut:"mendesak"});
+  if (f.sumber !== "Semua" && !T.some(t => t.sumber === f.sumber)) f.sumber = "Semua";
+  const host = document.getElementById("t-tl");
+  const fokusCari = document.activeElement && document.activeElement.id === "tl-cari" ? document.activeElement.selectionStart : null;
+  const list = h("div", {class:"tli-list", "aria-live":"polite"});
+  const jumlah = h("span", {class:"tbl-jumlah"});
+  const reset = h("button", {type:"button", class:"tli-reset", onclick(){ Object.assign(f, {q:"", status:"Semua", sumber:"Semua"}); renderTindak(); }}, h("i", {class:"bi bi-x-circle", "aria-hidden":"true"}), "Atur ulang filter");
+
+  const cocok = t => (f.status === "Semua" || tlStatus(t) === f.status) && (f.sumber === "Semua" || t.sumber === f.sumber) &&
+    (!f.q || [t.id, t.temuan, t.prodi, t.pic, t.rujukan, t.sumber].join(" ").toLowerCase().includes(f.q.toLowerCase()));
+
+  function isi(){
+    const rows = T.filter(cocok).sort(TL_URUT[f.urut][1]);
+    const aktif = f.q || f.status !== "Semua" || f.sumber !== "Semua";
+    jumlah.replaceChildren(h("b", null, rows.length), " dari " + T.length + " temuan");
+    reset.classList.toggle("hidden", !aktif);
+    list.replaceChildren(...(rows.length ? rows.map(kartu) : [h("div", {class:"tli-kosong"}, h("i", {class:"bi bi-search", "aria-hidden":"true"}),
+      h("b", null, "Tidak ada temuan yang cocok"), h("span", null, "Ubah kata kunci atau atur ulang filter."))]));
+  }
+  function kartu(t){
+    const st = tlStatus(t), d = sisaHari(t), nada = nadaTL(st);
+    const sisa = st === "Selesai" ? "Sudah selesai" : d < 0 ? "Terlambat " + fmt(-d, 0) + " hari" : d === 0 ? "Jatuh tempo hari ini" : fmt(d, 0) + " hari lagi";
+    const kelasSisa = st === "Selesai" ? "" : d < 0 ? "telat" : d <= 14 ? "dekat" : "";
+    const buka = () => bukaDetailTL(t, st);
+    const tombol = (ikon, label, klik) => h("button", {type:"button", class:"tli-btn", title:label, "aria-label":label + " " + t.id, onclick(e){ e.stopPropagation(); klik(); }},
+      h("i", {class:"bi " + ikon, "aria-hidden":"true"}), h("span", null, label));
+    const el = h("article", {class:"tli tli-" + nada, tabindex:"0", "aria-label":t.id + ": " + t.temuan, onclick:buka,
+      onkeydown(e){ if ((e.key === "Enter" || e.key === " ") && e.target === el) { e.preventDefault(); buka(); } }},
+      h("div", {class:"tli-utama"},
+        h("div", {class:"tli-kepala"}, h("span", {class:"kode"}, t.id), h("span", {class:"tli-chip"}, t.prodi), h("span", {class:"tli-chip"}, t.sumber)),
+        h("p", {class:"tli-temuan"}, t.temuan),
+        h("div", {class:"tli-meta"},
+          h("span", {title:"Penanggung jawab"}, h("i", {class:"bi bi-person", "aria-hidden":"true"}), t.pic),
+          h("span", {title:"Rujukan Renstra"}, h("i", {class:"bi bi-bookmark", "aria-hidden":"true"}), t.rujukan),
+          t.evidence ? h("span", {class:"ev-ada"}, h("i", {class:"bi bi-check2-square", "aria-hidden":"true"}), "Evidence ada") : h("span", {class:"ev-belum"}, h("i", {class:"bi bi-square", "aria-hidden":"true"}), "Evidence belum diunggah"))),
+      h("div", {class:"tli-status"},
+        badge(st, nada),
+        h("div", {class:"tli-prog", title:"Progres " + t.progres + "%"}, h("span", {class:"bar", role:"img", "aria-label":"Progres " + t.progres + " persen"}, h("i", {style:"width:" + t.progres + "%;background:" + STAT_COL[st]})), h("b", null, t.progres + "%")),
+        h("div", {class:"tli-tenggat"}, h("span", null, "Tenggat " + tglID(t.tenggat)), h("span", {class:"sisa " + kelasSisa}, sisa))),
+      h("div", {class:"tli-aksi"}, tombol("bi-card-text", "Detail", buka), tombol("bi-clipboard", "Salin", () => salin(ringkasTL(t), "Ringkasan " + t.id))));
+    return el;
+  }
+  function bukaDetailTL(t, st){
+    const d = sisaHari(t);
+    detail(t.id + " · " + t.sumber, [
       ["Temuan", t.temuan], ["Unit", t.prodi], ["Sumber", t.sumber], ["Rujukan", t.rujukan], ["PIC", t.pic],
-      ["Tenggat", tglID(t.tenggat) + (t.status==="Selesai" ? "" : d < 0 ? " · terlambat " + (-d) + " hari" : " · " + d + " hari lagi"), true],
-      ["Progres", t.progres + "%", true], ["Evidence", t.evidence ? "Ada" : "Belum diunggah"], ["Status", tlStatus(t)]]); }},
-    {ikon:"bi-clipboard", label:"Salin ringkasan", klik:t=>salin(ringkasTL(t), "Ringkasan " + t.id)},
-  ]});
+      ["Tenggat", tglID(t.tenggat) + (t.status === "Selesai" ? "" : d < 0 ? " · terlambat " + (-d) + " hari" : " · " + d + " hari lagi"), true],
+      ["Progres", t.progres + "%", true], ["Evidence", t.evidence ? "Ada" : "Belum diunggah"], ["Status", st]]);
+  }
+
+  const hitung = s => s === "Semua" ? T.length : T.filter(t => tlStatus(t) === s).length;
+  const chips = h("div", {class:"tli-chips", role:"group", "aria-label":"Filter status"}, ["Semua", ...TL_STATUS].map(s =>
+    h("button", {type:"button", class:"tli-pil" + (s === "Terlambat" ? " bad" : ""), "aria-pressed":String(f.status === s), onclick(){ f.status = s; renderTindak(); }},
+      s, h("span", {class:"n"}, hitung(s)))));
+  const cari = h("input", {id:"tl-cari", type:"search", class:"tli-cari", placeholder:"Cari temuan, PIC, atau ID…", "aria-label":"Cari tindak lanjut", value:f.q, autocomplete:"off",
+    oninput(e){ f.q = e.target.value.trim(); isi(); }});
+  const pilih = (label, nilai, opsi, set) => h("label", {class:"tli-pilih"}, h("span", null, label),
+    h("select", {onchange(e){ set(e.target.value); renderTindak(); }}, opsi.map(([v, l]) => h("option", Object.assign({value:v}, v === nilai ? {selected:""} : {}), l))));
+  const sumbers = [...new Set(T.map(t => t.sumber))];
+  const alat = h("div", {class:"tli-alat"},
+    h("div", {class:"tli-baris"}, h("div", {class:"tli-cariwrap"}, h("i", {class:"bi bi-search", "aria-hidden":"true"}), cari),
+      pilih("Sumber", f.sumber, [["Semua", "Semua sumber"], ...sumbers.map(s => [s, s])], v => f.sumber = v),
+      pilih("Urutkan", f.urut, Object.entries(TL_URUT).map(([k, v]) => [k, v[0]]), v => f.urut = v)),
+    chips, h("div", {class:"tli-info"}, jumlah, reset));
+  isi();
+  host.replaceChildren(alat, list);
+  if (fokusCari != null) { const c = document.getElementById("tl-cari"); c.focus(); c.setSelectionRange(fokusCari, fokusCari); }
 }
 
 /* ---------- tab: akreditasi ---------- */

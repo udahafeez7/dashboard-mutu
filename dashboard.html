@@ -87,6 +87,57 @@ nav#tabs button[aria-selected=true]{background:linear-gradient(145deg,#5b6488,#2
 .callout ul{margin:6px 0 0 18px;padding:0}
 .inline-select{padding:5px 8px;border-radius:6px;border:1px solid var(--line);font-size:13px;margin-bottom:8px}
 footer{color:var(--muted);font-size:12px;text-align:center;padding:14px 0}
+/* ---------- daftar tindak lanjut (kartu) ---------- */
+.tli-alat{display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+.tli-baris{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.tli-cariwrap{position:relative;flex:1 1 260px;min-width:200px}
+.tli-cariwrap .bi{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.tli-cari{width:100%;height:40px;padding:0 12px 0 36px;border:1px solid #d9dde4;border-radius:10px;font-size:13.5px;background:#fff;color:var(--ink)}
+.tli-cari:focus,.tli-pilih select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.tli-pilih{display:flex;flex-direction:column;gap:2px;font-size:11px;font-weight:600;color:var(--muted)}
+.tli-pilih select{height:40px;padding:0 10px;border:1px solid #d9dde4;border-radius:10px;font-size:13px;background:#fff;color:var(--ink);min-width:160px}
+.tli-chips{display:flex;flex-wrap:wrap;gap:8px}
+.tli-pil{border:1px solid #d9dde4;background:#fff;color:var(--ink);border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+.tli-pil .n{font-variant-numeric:tabular-nums;font-size:11.5px;background:#eef0f4;color:var(--muted);border-radius:999px;padding:0 7px;min-width:22px;text-align:center}
+.tli-pil:hover{background:#f3f5f9}
+.tli-pil[aria-pressed=true]{background:var(--head);border-color:var(--head);color:#fff}
+.tli-pil[aria-pressed=true] .n{background:rgba(255,255,255,.2);color:#fff}
+.tli-pil.bad:not([aria-pressed=true]) .n{background:#fee2e2;color:var(--bad)}
+.tli-pil:focus-visible,.tli-btn:focus-visible,.tli-reset:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tli-info{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:space-between}
+.tli-reset{border:0;background:none;color:var(--accent);font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:5px;cursor:pointer;padding:2px 4px}
+.tli-reset:hover{text-decoration:underline}
+.tli-list{display:flex;flex-direction:column;gap:10px}
+.tli{--nada:#94a3b8;display:grid;grid-template-columns:minmax(0,1fr) 230px auto;gap:6px 22px;align-items:center;padding:14px 16px 14px 18px;border:1px solid #e6e9ee;border-left:5px solid var(--nada);border-radius:12px;background:#fff;cursor:pointer;transition:box-shadow .15s ease,border-color .15s ease}
+.tli:hover{box-shadow:var(--sh-2);border-color:#d5dae3;border-left-color:var(--nada)}
+.tli:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tli-kuning{--nada:#d97706}.tli.dipilih{background:#f5f6fb;border-color:#c9cfe2;box-shadow:var(--sh-1)}
+.tli-chip.tampil{background:#e0e7ff;color:#3730a3}.tli-chip .bi{margin-right:4px}
+.ik-angka{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.ik-angka small{display:block;font-size:11px;color:var(--muted);font-weight:600}
+.ik-angka b{font-size:15px;font-variant-numeric:tabular-nums}
+.tli-ok{--nada:var(--ok)}.tli-warn{--nada:#2563eb}.tli-bad{--nada:var(--bad)}
+.tli-kepala{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:4px}
+.tli .kode{font-weight:700;font-size:13px}
+.tli-chip{font-size:11.5px;font-weight:600;color:var(--muted);background:#f1f3f6;border-radius:6px;padding:1px 8px}
+.tli-temuan{margin:0 0 6px;font-size:14.5px;line-height:1.45;font-weight:600;color:var(--ink)}
+.tli-meta{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:var(--muted)}
+.tli-meta .bi{margin-right:5px}
+.ev-ada{color:var(--ok)}.ev-belum{color:var(--warn)}
+.tli-status{display:flex;flex-direction:column;gap:6px;align-items:flex-start;font-size:12.5px}
+.tli-prog{display:flex;align-items:center;gap:8px;width:100%}
+.tli-prog .bar{flex:1;margin:0;height:7px}
+.tli-prog b{font-variant-numeric:tabular-nums;min-width:38px;text-align:right}
+.tli-tenggat{display:flex;flex-direction:column;color:var(--muted)}
+.tli-tenggat .sisa{font-weight:700;color:var(--ink)}
+.tli-tenggat .sisa.telat{color:var(--bad)}.tli-tenggat .sisa.dekat{color:var(--warn)}
+.tli-aksi{display:flex;flex-direction:column;gap:6px}
+.tli-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid #d9dde4;background:#fff;color:var(--ink);border-radius:8px;padding:5px 11px;font-size:12.5px;font-weight:600;cursor:pointer}
+.tli-btn:hover{background:#f3f5f9}
+.tli-kosong{display:flex;flex-direction:column;align-items:center;gap:4px;padding:36px 12px;color:var(--muted);text-align:center;border:1px dashed #d9dde4;border-radius:12px}
+.tli-kosong .bi{font-size:26px;opacity:.5}
+@media (max-width:900px){.tli{grid-template-columns:minmax(0,1fr) auto}.tli-status{grid-column:1;grid-row:2}.tli-aksi{grid-column:2;grid-row:1/3;align-self:start}}
+@media (max-width:560px){.tli{grid-template-columns:minmax(0,1fr)}.tli-status,.tli-aksi{grid-column:1;grid-row:auto}.tli-aksi{flex-direction:row}.tli-pilih,.tli-pilih select{width:100%}}
 .hidden{display:none}
 /* netralkan gaya Bootstrap yang bentrok dengan nama kelas dashboard */
 .card{display:block;border:0;color:inherit;word-wrap:normal}
@@ -126,9 +177,9 @@ h1,h2,h3,h4{font-weight:700;line-height:1.35}
     <div class="card"><h3>Tren capaian per sasaran strategis (%)</h3><p class="hint">Rata-rata capaian terhadap target tahun berjalan. Indikator kumulatif dibandingkan dengan target pro-rata triwulan.</p><canvas id="c-trend"></canvas></div>
     <div class="card"><h3>Capaian terkini per sasaran strategis (%)</h3><p class="hint">Hanya indikator yang sudah memiliki data realisasi.</p><canvas id="c-sasaran"></canvas></div>
     <div class="card"><h3>Kepuasan stakeholder (skala 4)</h3><p class="hint">Realisasi terkini dibanding target tahun berjalan.</p><canvas id="c-kepuasan"></canvas></div>
-    <div class="card"><h3 id="traj-title">Lintasan target 2025-2030</h3><p class="hint">Klik baris pada tabel untuk memilih indikator.</p><canvas id="c-traj"></canvas></div>
+    <div class="card"><h3 id="traj-title">Lintasan target 2025-2030</h3><p class="hint">Klik indikator pada daftar IKSS untuk memilihnya.</p><canvas id="c-traj"></canvas></div>
   </div>
-  <div class="card"><h3>Indikator Kinerja Sasaran Strategis (IKSS)</h3><p class="hint">Sumber: Tabel 6 Renstra. Klik judul kolom untuk mengurutkan.</p><div id="t-ind"></div></div>
+  <div class="card"><h3>Indikator Kinerja Sasaran Strategis (IKSS)</h3><p class="hint">Sumber: Tabel 6 Renstra. Klik indikator untuk menampilkan lintasan targetnya di grafik.</p><div id="t-ind"></div></div>
   <div class="card"><h3>Catatan validasi data Renstra</h3><p class="hint">Temuan konsistensi data yang perlu dikonfirmasi GPM sebelum angka dipakai untuk pelaporan.</p><div id="validasi"></div></div>
 </section>
 
@@ -137,7 +188,7 @@ h1,h2,h3,h4{font-weight:700;line-height:1.35}
     <div class="card"><h3>Status tindak lanjut</h3><canvas id="c-tl-status"></canvas></div>
     <div class="card"><h3>Status per sumber temuan (AMI, RTM, Evaluasi)</h3><canvas id="c-tl-sumber"></canvas></div>
   </div>
-  <div class="card"><h3>Daftar tindak lanjut</h3><p class="hint">Pilihan prodi menampilkan temuan prodi tersebut ditambah temuan tingkat fakultas.</p><div id="t-tl"></div></div>
+  <div class="card"><h3>Daftar tindak lanjut</h3><p class="hint">Pilihan prodi menampilkan temuan prodi tersebut ditambah temuan tingkat fakultas. Klik temuan untuk melihat rinciannya.</p><div id="t-tl"></div></div>
 </section>
 
 <section id="tab-akreditasi" class="hidden">
